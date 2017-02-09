@@ -68,4 +68,22 @@ public class Matrix
     {
         matrix = new double[m][n];
     }
+
+    /**
+     * Construct a matrix quickly without checking arguments. 
+     * @param a - Two-dimensional array of doubles.
+     * @param m - Number of rows.
+     * @param n - Number of columns
+     */
+    public Matrix(double[][] a, int m, int n)
+    {
+        matrix = new double[m][n];
+        for (int i = 0; i < m; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                matrix[i][j] = a[i][j];
+            }
+        }
+    }
 }
