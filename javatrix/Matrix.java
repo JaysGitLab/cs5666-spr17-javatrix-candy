@@ -24,10 +24,12 @@ public class Matrix
      */
     public Matrix(double[][] a)
     {
+        int rowLength = a[0].length;
+
         // Check to make sure all column lengths match the number of rows
         for (int i = 0; i < a.length; ++i)
         {
-            if (a[i].length != a.length)
+            if (a[i].length != rowLength)
             {
                 throw new IllegalArgumentException();
             }
@@ -35,5 +37,35 @@ public class Matrix
 
         // clone using the built in array clone.
         matrix = a.clone();
+    }
+
+    /**
+     * Construct an m-by-n constant matrix.
+     * 
+     * @param m Number of rows.
+     * @param n Number of colums.
+     * @param s Fill the matrix with this scalar value.
+     */
+    public Matrix(int m, int n, double s)
+    {
+        matrix = new double[m][n];
+        for (int i = 0; i < m; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                matrix[i][j] = s;
+            }
+        }
+    }
+
+    /**
+     * Construct an m-by-n matrix of zeros. Parameters:
+     * 
+     * @param m Number of rows.
+     * @param n Number of columns.
+     */
+    public Matrix(int m, int n)
+    {
+        matrix = new double[m][n];
     }
 }
