@@ -269,7 +269,7 @@ public class TestConstructor
         int m = 5;
         int n = 6 * m;
         int s = 101;
-        double[] a = make1DDoubleArrayFrom(n, 101);
+        double[] a = make1DDoubleArrayFrom(n, s);
 
         Matrix matrix = new Matrix(a, m);
 
