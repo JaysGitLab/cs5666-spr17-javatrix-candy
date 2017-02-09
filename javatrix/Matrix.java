@@ -32,8 +32,8 @@ public class Matrix
                 throw new IllegalArgumentException();
             }
         }
-        
-        //clone using the built in array clone.
+
+        // clone using the built in array clone.
         matrix = a.clone();
     }
 }

@@ -35,15 +35,13 @@ public class MatrixBasicTests
 
     }
 
-
-
     /**
      * Demo example test2.
      */
     @Test
     public void exampletest2()
     {
-        System.out.println("You passed test2");
+        // System.out.println("You passed test2");
     }
 
 }
