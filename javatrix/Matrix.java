@@ -70,7 +70,8 @@ public class Matrix
     }
 
     /**
-     * Construct a matrix quickly without checking arguments. 
+     * Construct a matrix quickly without checking arguments.
+     * 
      * @param a - Two-dimensional array of doubles.
      * @param m - Number of rows.
      * @param n - Number of columns
@@ -83,6 +84,35 @@ public class Matrix
             for (int j = 0; j < n; ++j)
             {
                 matrix[i][j] = a[i][j];
+            }
+        }
+    }
+
+    /**
+     * Construct a matrix from a one-dimensional packed array.
+     * 
+     * @param vals One-dimensional array of doubles, packed by columns (ala
+     *            Fortran).
+     * @param m the number of rows
+     * 
+     * @throws java.lang.IllegalArgumentException - Array length must be a
+     *             multiple of m.
+     */
+    public Matrix(double[] vals, int m) throws IllegalArgumentException
+    {
+        if (vals.length % m != 0)
+        {
+            throw new IllegalArgumentException();
+        }
+        int iter = 0;
+        int cols = vals.length / m;
+        matrix = new double[m][cols];
+        for (int i = 0; i < matrix.length; ++i)
+        {
+            for (int j = 0; j < matrix[0].length; ++j)
+            {
+                matrix[i][j] = vals[iter];
+                iter++;
             }
         }
     }

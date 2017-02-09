@@ -82,7 +82,7 @@ public class TestConstructor
     }
 
     /**
-     * Tests The constant constructor.
+     * Tests the constant constructor.
      */
     @Test
     public void testConstructorConstant()
@@ -148,10 +148,28 @@ public class TestConstructor
         }
         return ret;
     }
-    
-    
+
     /**
-     * Tests The clone constructor.
+     * Creates a 1d double array.
+     * 
+     * @param n number of elements
+     * @param s the number to fill
+     * @return a 1d double array filled with the number s;
+     */
+    private double[] make1DDoubleArrayFrom(int n, double s)
+    {
+        double[] ret = new double[n];
+
+        for (int j = 0; j < n; ++j)
+        {
+            ret[j] = s;
+        }
+
+        return ret;
+    }
+
+    /**
+     * Tests The zeroed constructor.
      */
     @Test
     public void testConstructorZeros()
@@ -195,10 +213,9 @@ public class TestConstructor
             assertTrue(all.getMessage(), false);
         }
     }
-    
-    
+
     /**
-     * Tests The clone constructor.
+     * Tests The quick constructor.
      */
     @Test
     public void testConstructorQuickWithoutChecks()
@@ -240,6 +257,55 @@ public class TestConstructor
         {
             // automatically fail test and give the exception message
             assertTrue(all.getMessage(), false);
+        }
+    }
+
+    /**
+     * Tests The clone constructor.
+     */
+    @Test
+    public void testOneDimConstructor()
+    {
+        int m = 5;
+        int n = 6 * m;
+        int s = 101;
+        double[] a = make1DDoubleArrayFrom(n, 101);
+
+        Matrix matrix = new Matrix(a, m);
+
+        try
+        {
+            // use reflection to test private field
+            Field matrixField = Matrix.class.getDeclaredField("matrix");
+            matrixField.setAccessible(true);
+
+            // test if copy was shallow
+            assertTrue(
+                    "The private matrix field is the same as passed argument",
+                    matrixField.get(matrix) != a);
+
+            // test that elements are the same
+            double[][] privMatrix = (double[][]) matrixField.get(matrix);
+            int iter = 0;
+            int rowLength = privMatrix[0].length;
+            for (int i = 0; i < m; ++i)
+            {
+                assertTrue("non-square matrix",
+                        rowLength == privMatrix[i].length);
+                for (int j = 0; j < privMatrix[0].length; ++j)
+                {
+                    assertTrue("incorrect element at:" + i + " " + j,
+                            a[iter] == privMatrix[i][j]);
+                    iter++;
+                }
+            }
+        }
+        // having to catch these instead of throwing them because checkstyle
+        // doesn't work well with @test annotation
+        catch (Exception all)
+        {
+            // automatically fail test and give the exception message
+            assertTrue(all.toString(), false);
         }
     }
 }
