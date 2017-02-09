@@ -16,9 +16,13 @@ default:
 	@echo "usage: make target"
 	@echo "available targets: compile, test, clean"
 
-compile: ./javatrix/Matrix.java ./javatrix/tests/MatrixBasicTests.java ./javatrix/tests/TestConstructor.java
-	javac -cp .:$(JUNIT_JAR) ./javatrix/tests/MatrixBasicTests.java
-	javac -cp .:$(JUNIT_JAR) ./javatrix/tests/TestConstructor.java
+compile: ./javatrix/Matrix.java ./javatrix/tests/MatrixBasicTests.java ./javatrix/tests/TestConstructor.java\
+./javatrix/tests/MatrixBasicTests.java
+	javac -cp .:$(JUNIT_JAR) ./javatrix/tests/*.java
+#javac -cp .:$(JUNIT_JAR) ./javatrix/tests/MatrixBasicTests.java
+#javac -cp .:$(JUNIT_JAR) ./javatrix/tests/TestConstructor.java
+#javac -cp .:$(JUNIT_JAR) ./javatrix/tests/AllTests.java 
+	
 	
 	javac ./javatrix/Matrix.java
 
@@ -30,7 +34,7 @@ clean:
 # ie javatrix/tests/MatrixBasicTests will not work; it must be javatrix.tests.MatrixBasicTests
 # see this link: http://stackoverflow.com/questions/15548580/junit-cannot-find-class
 test: ./javatrix/Matrix.class ./javatrix/tests/MatrixBasicTests.class 
-	java -cp .:$(JUNIT_JAR):$(HAMCREST_JAR) org.junit.runner.JUnitCore javatrix.tests.MatrixBasicTests
-	java -cp .:$(JUNIT_JAR):$(HAMCREST_JAR) org.junit.runner.JUnitCore javatrix.tests.TestConstructor
-
-
+#	java -cp .:$(JUNIT_JAR):$(HAMCREST_JAR) org.junit.runner.JUnitCore javatrix.tests.MatrixBasicTests
+#	java -cp .:$(JUNIT_JAR):$(HAMCREST_JAR) org.junit.runner.JUnitCore javatrix.tests.TestConstructor
+	java -cp .:$(JUNIT_JAR):$(HAMCREST_JAR) org.junit.runner.JUnitCore javatrix.tests.AllTests
+	
