@@ -83,6 +83,23 @@ public class MatrixBasicTests
         }
     }
 
+    @Test
+    public void testGetRow()
+    {
+        double[][] a = new double[4][5];
+        Matrix matrix = new Matrix(a);
+
+        try
+        {
+            int i = matrix.getRowDimension();
+            assertEquals(4, i);
+        }
+        catch ( Exception all)
+        {
+            assertTrue(all.getMessage(), false);
+        }
+    }
+
     /**
      * Tests to make sure array times results in a matrix with the correct
      * fields.
