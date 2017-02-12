@@ -61,5 +61,22 @@ public class MatrixBasicTests
             assertTrue(all.getMessage(), false);
         }
     }
+    @Test
+    public void test3paramSet()
+    {
+        double [][] a = new double[4][5];
+        Matrix matrix = new Matrix(a);
+
+        try
+        {
+            matrix.set(2,3,2.0);
+            double l = matrix.get(2,3);
+            assertEquals(2.0, l);
+        }
+        catch ( Exception all)
+        {
+            assertTrue(all.getMessage(), false);
+        }
+    }
 
 }
