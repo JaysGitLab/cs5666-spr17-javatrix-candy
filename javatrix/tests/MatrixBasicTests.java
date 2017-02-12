@@ -2,8 +2,11 @@ package javatrix.tests;
 
 //import static org.junit.Assert.*;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -110,6 +113,49 @@ public class MatrixBasicTests
         {
             all.printStackTrace();
             assertTrue("Exception occured - stack trace printed", false);
+        }
+
+    }
+
+    @Test
+    public void testPrint()
+    {
+        Matrix testMatrix = new Matrix(3, 3, 8);
+        String output = "8.0, 8.0, 8.0\n8.0, 8.0, 8.0\n8.0, 8.0, 8.0\n";
+
+        // save original in
+        PrintStream originalOut = System.out;
+
+        // create something to capture
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(baos));
+
+        // actual test
+        String methodName = "print";
+        try
+        {
+            // Actual Test
+            Method printFuncPtr = Matrix.class.getDeclaredMethod(methodName,
+                    int.class, int.class);
+
+            // A
+            printFuncPtr.invoke(testMatrix, 3, 1);
+            assertEquals(baos.toString().trim(), output.trim());
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            assertTrue("Cannot find method: " + methodName, false);
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            assertTrue("Exception occured - stack trace printed", false);
+        }
+        finally
+        {
+            // restore system original
+            System.setOut(originalOut);
         }
 
     }
