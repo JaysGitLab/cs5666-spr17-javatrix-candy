@@ -177,5 +177,27 @@ public class Matrix
         return this;
     }
 
+    /**
+     * Element-by-element multiplication, C = A.*B
+     *
+     * @param B another matrix
+     *
+     *
+     * @return A*B
+     *
+     * @throws java.lang.IllegalArgumentException - Matrix dimensions 
+     * must be comptible 
+     */
+    public Matrix arrayTimes(Matrix B) throws IllegalArgumentException{
+        if (rows != B.rows || cols != B.cols)
+            throw new IllegalArgumentException();
+        Matrix c = new Matrix(rows, cols);
+        for (int i = 0; i < rows; ++i){
+            for (int j = 0; j < cols; ++j){
+                c.matrix[i][j] = matrix[i][j] * B.matrix[i][j];
+            }
+        }
+        return c;          
+    }
 }
 
