@@ -214,7 +214,7 @@ public class Matrix
     
     public void set(int i, int j, double s)
     {
-        if(i >= rows || j >= cols)
+        if(i >= rows || j >= cols || i <= -1 || j <= -1)
          {
              throw new ArrayIndexOutOfBoundsException();
          }
@@ -226,6 +226,11 @@ public class Matrix
      *
      * @return col the column value of the matrix object
      */
+    public int getColumnDimension()
+    {
+        return this.cols;
+    }
+
 
 
 }
