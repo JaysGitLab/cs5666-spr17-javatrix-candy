@@ -199,5 +199,39 @@ public class Matrix
         }
         return c;          
     }
+    /**
+     * sets a specific index of the matrix with a double value.
+     *
+     * @param i the row index for the matrix
+     *
+     * @param j the column index for the matrix 
+     *
+     * @param s the double value to be inserted to the matrix 
+     *
+     * @throws java.lang.ArrayIndexOutOfBoundsException - matrix[i][j] 
+     * doesnt exist
+     */
+    
+    public void set(int i, int j, double s)
+    {
+        if(i >= rows || j >= cols || i <= -1 || j <= -1)
+         {
+             throw new ArrayIndexOutOfBoundsException();
+         }
+         this.matrix[i][j] = s;
+    }
+
+    /**
+     * returns the column value for this matrix object
+     *
+     * @return col the column value of the matrix object
+     */
+    public int getColumnDimension()
+    {
+        return this.cols;
+    }
+
+
+
 }
 
