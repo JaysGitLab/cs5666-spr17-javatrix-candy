@@ -53,7 +53,8 @@ public class MatrixBasicTests
     }
 
     /**
-     * Demo example test2.
+     * Tests to make sure array times results in a matrix with the correct
+     * fields.
      */
     @Test
     public void testArrayTimes()
@@ -67,14 +68,18 @@ public class MatrixBasicTests
         try
         {
             // get a reflection to method (like a function pointer)
-            Method arrayTimesPointer = Matrix.class.getMethod("methodName",
+            Method arrayTimesPointer = Matrix.class.getMethod(methodName,
                     Matrix.class);
             // set the accessibility to public
             arrayTimesPointer.setAccessible(true);
 
-            // invoke method and check results
+            // invoke method and check results (ie: one.arrayTimes(two);)
             Matrix three = (Matrix) arrayTimesPointer.invoke(one, two);
-            Field internalMatrixField = Matrix.class.getField("matrix");
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
             double[][] privMatrix = (double[][]) internalMatrixField.get(three);
             for (int i = 0; i < privMatrix.length; ++i)
             {
