@@ -137,7 +137,13 @@ public class Matrix
      */
     public double get(int i, int j) throws ArrayIndexOutOfBoundsException
     {
+        if(i >= rows || i < 0 || j >= cols || j <0)
+        {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        
         return matrix[i][j];
+        
     }
 
     /**

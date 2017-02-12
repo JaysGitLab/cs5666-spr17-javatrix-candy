@@ -55,6 +55,7 @@ public class MatrixBasicTests
         double[][] a = {{1,2,3},{4,5,6},{7,8,9}};
         Matrix matrix = new Matrix(a);
         double x = a[1][1];
+        System.out.println(matrix.get(1,1));
         assertEquals(matrix.get(1,1), x, 0.02);            
     }
 
