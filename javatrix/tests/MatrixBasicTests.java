@@ -1,6 +1,8 @@
 package javatrix.tests;
 
-//import static org.junit.Assert.*;
+import static org.junit.Assert.*;
+
+import javatrix.Matrix;
 
 import org.junit.After;
 import org.junit.Before;
@@ -42,6 +44,22 @@ public class MatrixBasicTests
     public void exampletest2()
     {
         // System.out.println("You passed test2");
+    }
+    @Test
+    public void testGetCol()
+    {
+        double[][] a = new double[4][5];
+        Matrix matrix = new Matrix(a);
+
+        try
+        {
+            int i = matrix.getColumnDimension();
+            assertEquals(5, i);
+        }
+        catch (Exception all)
+        {
+            assertTrue(all.getMessage(), false);
+        }
     }
 
 }
