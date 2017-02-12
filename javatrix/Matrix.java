@@ -256,7 +256,7 @@ public class Matrix
 
 
 
-}
+
 
     /**
      * Print the matrix to stdout. Line the elements up in columns with a
