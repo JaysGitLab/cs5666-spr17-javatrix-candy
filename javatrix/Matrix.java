@@ -135,7 +135,7 @@ public class Matrix
      *
      * @throws java.lang.ArrayIndexOutOfBoundsException Element index must be inbounds
      */
-    public double get(int i, int j)
+    public double get(int i, int j) throws ArrayIndexOutOfBoundsException
     {
         return matrix[i][j];
     }
