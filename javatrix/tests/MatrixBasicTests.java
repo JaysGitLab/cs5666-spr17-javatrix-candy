@@ -10,8 +10,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import javatrix.Matrix;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +51,21 @@ public class MatrixBasicTests
     {
         // System.out.println("You passed test2");
     }
+    
+    /**
+     * Test get
+     */
+    @Test
+    public void getTest()
+    {
+        double[][] a = {{1,2,3},{4,5,6},{7,8,9}};
+        Matrix matrix = new Matrix(a);
+        double x = a[1][1];
+        System.out.println(matrix.get(1,1));
+        assertEquals(matrix.get(1,1), x, 0.02);      
+    }
+
+  
     @Test
     public void testGetCol()
     {
