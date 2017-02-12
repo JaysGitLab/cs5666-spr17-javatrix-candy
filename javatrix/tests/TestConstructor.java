@@ -270,6 +270,8 @@ public class TestConstructor
         int n = 6 * m;
         int s = 101;
         double[] a = make1DDoubleArrayFrom(n, s);
+        a[5] = 4;
+        a[13] = 7;
 
         Matrix matrix = new Matrix(a, m);
 
@@ -287,15 +289,15 @@ public class TestConstructor
             // test that elements are the same
             double[][] privMatrix = (double[][]) matrixField.get(matrix);
             int iter = 0;
-            int rowLength = privMatrix[0].length;
+            int numColsAtRow = privMatrix[0].length;
             for (int i = 0; i < m; ++i)
             {
                 assertTrue("non-square matrix",
-                        rowLength == privMatrix[i].length);
-                for (int j = 0; j < privMatrix[0].length; ++j)
+                        numColsAtRow == privMatrix[i].length);
+                for (int j = 0; j < privMatrix.length; ++j)
                 {
                     assertTrue("incorrect element at:" + i + " " + j,
-                            a[iter] == privMatrix[i][j]);
+                            a[iter] == privMatrix[j][i]);
                     iter++;
                 }
             }
