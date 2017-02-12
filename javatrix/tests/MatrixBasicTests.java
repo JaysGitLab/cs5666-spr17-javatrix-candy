@@ -1,6 +1,8 @@
 package javatrix.tests;
 
-//import static org.junit.Assert.*;
+import static org.junit.Assert.*;
+
+import javatrix.Matrix;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,8 +12,6 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import javatrix.Matrix;
 
 import org.junit.After;
 import org.junit.Before;
@@ -53,6 +53,37 @@ public class MatrixBasicTests
     public void exampletest2()
     {
         // System.out.println("You passed test2");
+    }
+    
+    /**
+     * Test get
+     */
+    @Test
+    public void getTest()
+    {
+        double[][] a = {{1,2,3},{4,5,6},{7,8,9}};
+        Matrix matrix = new Matrix(a);
+        double x = a[1][1];
+        System.out.println(matrix.get(1,1));
+        assertEquals(matrix.get(1,1), x, 0.02);      
+    }
+
+  
+    @Test
+    public void testGetCol()
+    {
+        double[][] a = new double[4][5];
+        Matrix matrix = new Matrix(a);
+
+        try
+        {
+            int i = matrix.getColumnDimension();
+            assertEquals(5, i);
+        }
+        catch (Exception all)
+        {
+            assertTrue(all.getMessage(), false);
+        }
     }
 
     /**

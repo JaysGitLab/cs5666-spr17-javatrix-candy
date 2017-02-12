@@ -127,6 +127,26 @@ public class Matrix
     }
 
     /**
+     * Get a single element.
+     *
+     * @param i Row index
+     *
+     * @param j Column index
+     *
+     * @throws java.lang.ArrayIndexOutOfBoundsException Element index must be inbounds
+     */
+    public double get(int i, int j) throws ArrayIndexOutOfBoundsException
+    {
+        if(i >= rows || i < 0 || j >= cols || j <0)
+        {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        
+        return matrix[i][j];
+        
+    }
+
+    /**
      * Left division for a matrix denotes a sequence in which x = A\b is a
      * solution to A*x = b. It will divide every entry in the matrix it is
      * called on one at a time by all the entires in the parameter matrix.
@@ -179,29 +199,64 @@ public class Matrix
 
     /**
      * Element-by-element multiplication, C = A.*B
-     * 
-     * @param B another matrix
-     * 
-     * 
+
+     *
+     * @param b another matrix
+     *
+     *
      * @return A*B
      * 
      * @throws java.lang.IllegalArgumentException - Matrix dimensions must be
      *             comptible
      */
-    public Matrix arrayTimes(Matrix B) throws IllegalArgumentException
-    {
-        if (rows != B.rows || cols != B.cols)
+
+    public Matrix arrayTimes(Matrix b) throws IllegalArgumentException{
+        if (rows != b.rows || cols != b.cols)
             throw new IllegalArgumentException();
         Matrix c = new Matrix(rows, cols);
-        for (int i = 0; i < rows; ++i)
-        {
-            for (int j = 0; j < cols; ++j)
-            {
-                c.matrix[i][j] = matrix[i][j] * B.matrix[i][j];
+        for (int i = 0; i < rows; ++i){
+            for (int j = 0; j < cols; ++j){
+                c.matrix[i][j] = matrix[i][j] * b.matrix[i][j];
             }
         }
         return c;
     }
+
+    /**
+     * sets a specific index of the matrix with a double value.
+     *
+     * @param i the row index for the matrix
+     *
+     * @param j the column index for the matrix 
+     *
+     * @param s the double value to be inserted to the matrix 
+     *
+     * @throws java.lang.ArrayIndexOutOfBoundsException - matrix[i][j] 
+     * doesnt exist
+     */
+    
+    public void set(int i, int j, double s)
+    {
+        if(i >= rows || j >= cols || i <= -1 || j <= -1)
+         {
+             throw new ArrayIndexOutOfBoundsException();
+         }
+         this.matrix[i][j] = s;
+    }
+
+    /**
+     * returns the column value for this matrix object
+     *
+     * @return col the column value of the matrix object
+     */
+    public int getColumnDimension()
+    {
+        return this.cols;
+    }
+
+
+
+}
 
     /**
      * Print the matrix to stdout. Line the elements up in columns with a
