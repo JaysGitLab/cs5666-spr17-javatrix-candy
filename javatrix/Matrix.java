@@ -13,6 +13,8 @@ package javatrix;
 public class Matrix
 {
     private double[][] matrix;
+    private int rows;
+    private int cols;
 
     /**
      * Construct a matrix from a copy of a 2-D array.
@@ -56,6 +58,8 @@ public class Matrix
                 matrix[i][j] = s;
             }
         }
+        rows = m;
+        cols = n;
     }
 
     /**
@@ -66,6 +70,8 @@ public class Matrix
      */
     public Matrix(int m, int n)
     {
+        rows = m;
+        cols = n;
         matrix = new double[m][n];
     }
 
@@ -78,6 +84,8 @@ public class Matrix
      */
     public Matrix(double[][] a, int m, int n)
     {
+        rows = m;
+        cols = n;
         matrix = new double[m][n];
         for (int i = 0; i < m; ++i)
         {
@@ -105,7 +113,8 @@ public class Matrix
             throw new IllegalArgumentException();
         }
         int iter = 0;
-        int cols = vals.length / m;
+        rows = m;
+        cols = vals.length / m;
         matrix = new double[m][cols];
         for (int i = 0; i < matrix.length; ++i)
         {
@@ -116,4 +125,54 @@ public class Matrix
             }
         }
     }
+    
+    /**
+     * Left division for a matrix denotes a sequence in which x = A\b is
+     * a solution to A*x = b. It will divide every entry in the matrix it 
+     * is called on one at a time by all the entires in the parameter 
+     * matrix. *Note* the matricies to be used must have the same dimensions
+     *
+     * @param B some dimensional matrix.
+     *
+     * @return C a matrix that has is the result of single elements from A
+     *              being divided by single elements from B
+     *
+     * @throws java.lang.IllegalArgumentException - The argument must be a matrix
+     *
+     */
+    public Matrix arrayLeftDivide(Matrix b)
+    {
+        Matrix C = new Matrix(B.rows, B.cols);
+        for (int i = 0; i < B.rows; i++)
+        {
+            for (int j = 0; j < B.cols; j++)
+            {
+                C[i][j] = (double)matrix[i][j] / (double)B[i][j];
+            }
+        }
+        return C;
+    }
+
+    /**
+     * Same as the left division above but instead of instantiating a new matrix
+     * this will be done in place on the A matrix.
+     *
+     * @param B some dimensional matrix.
+     *
+     *
+     * @return matrix the resulting matrix of the inplace division
+     *
+     */
+    public Matrix arrayLeftDivideEquals(Matrix B)
+    {
+        for (int i = 0; i < B.rows; i++)
+        {
+            for (int j = 0; j < B.cols; j++)
+            {
+                matrix[i][j] = (double)matrix[i][j] / (double)B[i][j];
+            }
+        }
+        return matrix;
+    }
+
 }
