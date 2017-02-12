@@ -116,11 +116,11 @@ public class Matrix
         rows = m;
         cols = vals.length / m;
         matrix = new double[m][cols];
-        for (int i = 0; i < matrix.length; ++i)
+        for (int i = 0; i < matrix[0].length; ++i)
         {
-            for (int j = 0; j < matrix[0].length; ++j)
+            for (int j = 0; j < matrix.length; ++j)
             {
-                matrix[i][j] = vals[iter];
+                matrix[j][i] = vals[iter];
                 iter++;
             }
         }
