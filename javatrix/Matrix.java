@@ -127,6 +127,20 @@ public class Matrix
     }
 
     /**
+     * Get a single element.
+     *
+     * @param i Row index
+     *
+     * @param j Column index
+     *
+     * @throws java.lang.ArrayIndexOutOfBoundsException Element index must be inbounds
+     */
+    public double get(int i, int j)
+    {
+        return matrix[i][j];
+    }
+
+    /**
      * Left division for a matrix denotes a sequence in which x = A\b is a
      * solution to A*x = b. It will divide every entry in the matrix it is
      * called on one at a time by all the entires in the parameter matrix.
@@ -180,7 +194,7 @@ public class Matrix
     /**
      * Element-by-element multiplication, C = A.*B
      *
-     * @param B another matrix
+     * @param b another matrix
      *
      *
      * @return A*B
@@ -188,13 +202,13 @@ public class Matrix
      * @throws java.lang.IllegalArgumentException - Matrix dimensions 
      * must be comptible 
      */
-    public Matrix arrayTimes(Matrix B) throws IllegalArgumentException{
-        if (rows != B.rows || cols != B.cols)
+    public Matrix arrayTimes(Matrix b) throws IllegalArgumentException{
+        if (rows != b.rows || cols != b.cols)
             throw new IllegalArgumentException();
         Matrix c = new Matrix(rows, cols);
         for (int i = 0; i < rows; ++i){
             for (int j = 0; j < cols; ++j){
-                c.matrix[i][j] = matrix[i][j] * B.matrix[i][j];
+                c.matrix[i][j] = matrix[i][j] * b.matrix[i][j];
             }
         }
         return c;          
