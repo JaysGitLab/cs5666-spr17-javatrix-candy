@@ -24,7 +24,7 @@ public class Matrix
      * @throws java.lang.IllegalArgumentException - All rows must have the same
      *             length
      */
-    public Matrix(double[][] a)
+    public Matrix(double[][] a) throws IllegalArgumentException
     {
         int rowLength = a[0].length;
 
@@ -141,7 +141,7 @@ public class Matrix
      *             matrix
      * 
      */
-    public Matrix arrayLeftDivide(Matrix b)
+    public Matrix arrayLeftDivide(Matrix b) throws IllegalArgumentException
     {
         Matrix c = new Matrix(b.rows, b.cols);
         for (int i = 0; i < b.rows; i++)
