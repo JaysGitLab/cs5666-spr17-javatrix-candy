@@ -199,15 +199,17 @@ public class Matrix
 
     /**
      * Element-by-element multiplication, C = A.*B
+
      *
      * @param b another matrix
      *
      *
      * @return A*B
-     *
-     * @throws java.lang.IllegalArgumentException - Matrix dimensions 
-     * must be comptible 
+     * 
+     * @throws java.lang.IllegalArgumentException - Matrix dimensions must be
+     *             comptible
      */
+
     public Matrix arrayTimes(Matrix b) throws IllegalArgumentException{
         if (rows != b.rows || cols != b.cols)
             throw new IllegalArgumentException();
@@ -217,8 +219,9 @@ public class Matrix
                 c.matrix[i][j] = matrix[i][j] * b.matrix[i][j];
             }
         }
-        return c;          
+        return c;
     }
+
     /**
      * sets a specific index of the matrix with a double value.
      *
@@ -253,5 +256,33 @@ public class Matrix
 
 
 
-}
 
+
+    /**
+     * Print the matrix to stdout. Line the elements up in columns with a
+     * Fortran-like 'Fw.d' style format.
+     * 
+     * @param w - Column width.
+     * @param d - Number of digits after the decimal.
+     */
+    public void print(int w, int d)
+    {
+        String formatedStr = "%." + d + "f";
+        for (int i = 0; i < matrix.length; ++i)
+        {
+            for (int j = 0; j < w; ++j)
+            {
+                if (j + 1 != w)
+                {
+                    System.out.printf(formatedStr + ", ", matrix[i][j]);
+                }
+                else
+                {
+                    System.out.printf(formatedStr + "\n", matrix[i][j]);
+                }
+
+            }
+        }
+    }
+
+}
