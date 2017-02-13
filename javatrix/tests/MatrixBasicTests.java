@@ -1,9 +1,5 @@
 package javatrix.tests;
 
-import static org.junit.Assert.*;
-
-import javatrix.Matrix;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -12,6 +8,8 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import javatrix.Matrix;
 
 import org.junit.After;
 import org.junit.Before;
@@ -54,21 +52,25 @@ public class MatrixBasicTests
     {
         // System.out.println("You passed test2");
     }
-    
+
     /**
-     * Test get
+     * Test get method.
      */
     @Test
     public void getTest()
     {
-        double[][] a = {{1,2,3},{4,5,6},{7,8,9}};
+        //@formatter:off
+        double[][] a = {{1, 2, 3 }, {4, 5, 6 }, {7, 8, 9 } };
+        //@formatter:on
         Matrix matrix = new Matrix(a);
         double x = a[1][1];
-        System.out.println(matrix.get(1,1));
-        assertEquals(matrix.get(1,1), x, 0.02);      
+        // System.out.println(matrix.get(1, 1));
+        assertEquals(matrix.get(1, 1), x, 0.02);
     }
 
-  
+    /**
+     * Tests the getColumnDimension method.
+     */
     @Test
     public void testGetCol()
     {
@@ -85,24 +87,31 @@ public class MatrixBasicTests
             assertTrue(all.getMessage(), false);
         }
     }
+
+    /**
+     * Tests the 3 paramter set method.
+     */
     @Test
     public void test3paramSet()
     {
-        double [][] a = new double[4][5];
+        double[][] a = new double[4][5];
         Matrix matrix = new Matrix(a);
 
         try
         {
-            matrix.set(2,3,2.0);
-            double l = matrix.get(2,3);
-            assertEquals(2.0, l);
+            matrix.set(2, 3, 2.0);
+            double l = matrix.get(2, 3);
+            assertEquals(2.0, l, 0.001);
         }
-        catch ( Exception all)
+        catch (Exception all)
         {
             assertTrue(all.getMessage(), false);
         }
     }
 
+    /**
+     * Test's the getRowDimension method.
+     */
     @Test
     public void testGetRow()
     {
@@ -114,7 +123,7 @@ public class MatrixBasicTests
             int i = matrix.getRowDimension();
             assertEquals(4, i);
         }
-        catch ( Exception all)
+        catch (Exception all)
         {
             assertTrue(all.getMessage(), false);
         }
@@ -182,6 +191,10 @@ public class MatrixBasicTests
 
     }
 
+    /**
+     * Tests the printing of the matrix. Not sure on the fortran stuff Dr.
+     * Fenwick wanted.
+     */
     @Test
     public void testPrint()
     {
@@ -223,6 +236,143 @@ public class MatrixBasicTests
             System.setOut(originalOut);
         }
 
+    }
+
+    /**
+     * Tests the testArrayLeftDivide.
+     */
+    @Test
+    public void testArrayLeftDivide()
+    {
+        // create two matrices to multiply
+        Matrix one = new Matrix(4, 4, 10);
+        Matrix two = new Matrix(4, 4, 2);
+        String methodName = "arrayLeftDivide";
+
+        // get method
+        try
+        {
+            // get a reflection to method (like a function pointer)
+            Method arrayLeftDividePointer = Matrix.class.getMethod(methodName,
+                    Matrix.class);
+            // set the accessibility to public
+            arrayLeftDividePointer.setAccessible(true);
+
+            // invoke method and check results (ie: one.arrayLeftDivide(two);)
+            Matrix three = (Matrix) arrayLeftDividePointer.invoke(one, two);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
+            double[][] threePvArr = (double[][]) internalMatrixField.get(three);
+            double[][] onePvArr = (double[][]) internalMatrixField.get(one);
+
+            for (int i = 0; i < threePvArr.length; ++i)
+            {
+                for (int j = 0; j < threePvArr[i].length; ++j)
+                {
+                    assertEquals("invalid value in patrix: " + threePvArr[i][j]
+                            + "should be" + 5.0 + ".", threePvArr[i][j], 5.0,
+                            0.001);
+                    // Make sure original array wasn't corrupted
+                    assertEquals("array should contain 10.0, it "
+                            + "contains something other", onePvArr[i][j], 10.0,
+                            0.001);
+                }
+            }
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            assertTrue("Cannot find method: " + methodName, false);
+        }
+        catch (SecurityException e)
+        {
+            e.printStackTrace();
+            assertTrue("security exception ", false);
+        }
+        catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+            assertTrue("failed to invoke the " + methodName + ".", false);
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            assertTrue("Exception occured - stack trace printed", false);
+        }
+    }
+
+    /**
+     * Tests the testArrayLeftDivide.
+     */
+    @Test
+    public void testArrayLeftDivideEquals()
+    {
+        // create two matrices to multiply
+        Matrix one = new Matrix(4, 4, 10);
+        Matrix two = new Matrix(4, 4, 2);
+        String methodName = "arrayLeftDivideEquals";
+
+        // get method
+        try
+        {
+            // get a reflection to method (like a function pointer)
+            Method arrayLeftDivideEqualsPointer = Matrix.class.getMethod(
+                    methodName, Matrix.class);
+            // set the accessibility to public
+            arrayLeftDivideEqualsPointer.setAccessible(true);
+
+            // invoke method and check results
+            // (ie: one.arrayLeftDivideEquals(two);)
+            Matrix three = (Matrix) arrayLeftDivideEqualsPointer.invoke(one,
+                    two);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
+            double[][] threePvArr = (double[][]) internalMatrixField.get(three);
+            double[][] onePvArr = (double[][]) internalMatrixField.get(one);
+
+            // assertTrue("internal array is same as returned array",
+            // threePvArr.hashCode() != onePvArr.hashCode());
+
+            for (int i = 0; i < threePvArr.length; ++i)
+            {
+                for (int j = 0; j < threePvArr[i].length; ++j)
+                {
+                    assertEquals("invalid value in patrix: " + threePvArr[i][j]
+                            + "should be" + 5.0 + ".", threePvArr[i][j], 5.0,
+                            0.001);
+                    // Make sure original array wasn't corrupted
+                    assertEquals("array should contain 5.0, it "
+                            + "contains something other", onePvArr[i][j], 5.0,
+                            0.001);
+                }
+            }
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            assertTrue("Cannot find method: " + methodName, false);
+        }
+        catch (SecurityException e)
+        {
+            e.printStackTrace();
+            assertTrue("security exception ", false);
+        }
+        catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+            assertTrue("failed to invoke the " + methodName + ".", false);
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            assertTrue("Exception occured - stack trace printed", false);
+        }
     }
 
 }
