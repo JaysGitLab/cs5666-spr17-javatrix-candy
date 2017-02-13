@@ -194,7 +194,7 @@ public class Matrix
         {
             for (int j = 0; j < b.cols; j++)
             {
-                matrix[i][j] =  matrix[i][j] / b.matrix[i][j];
+                matrix[i][j] = matrix[i][j] / b.matrix[i][j];
             }
         }
         return this;
@@ -244,6 +244,7 @@ public class Matrix
      */
 
     public void set(int i, int j, double s)
+            throws ArrayIndexOutOfBoundsException
     {
         if (i >= rows || j >= cols || i <= -1 || j <= -1)
         {
