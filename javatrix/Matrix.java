@@ -230,6 +230,7 @@ public class Matrix
         return c;
     }
 
+    //@formatter:off
     /**
      * sets a specific index of the matrix with a double value.
      * 
@@ -242,9 +243,8 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - matrix[i][j] doesnt
      *             exist
      */
-
     public void set(int i, int j, double s)
-            throws ArrayIndexOutOfBoundsException
+        throws ArrayIndexOutOfBoundsException
     {
         if (i >= rows || j >= cols || i <= -1 || j <= -1)
         {
@@ -252,6 +252,7 @@ public class Matrix
         }
         this.matrix[i][j] = s;
     }
+    //@formatter:on
 
     /**
      * returns the column value for this matrix object.
