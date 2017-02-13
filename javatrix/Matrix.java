@@ -26,8 +26,10 @@ public class Matrix
      */
     public Matrix(double[][] a) throws IllegalArgumentException
     {
+        rows = a.length;
+        cols = a[0].length;
         int rowLength = a[0].length;
-
+        
         // Check to make sure all column lengths match the number of rows
         for (int i = 0; i < a.length; ++i)
         {
