@@ -392,7 +392,7 @@ public class MatrixBasicTests
         {
             // get a reflection to method (like a function pointer)
             Method randFuncPtr = Matrix.class.getMethod(methodName,
-                    Matrix.class);
+                    int.class, int.class);
             // set the accessibility to public (in case changed to priv later)
             randFuncPtr.setAccessible(true);
 
