@@ -47,7 +47,7 @@ public class Matrix
      * Construct an m-by-n constant matrix.
      * 
      * @param m Number of rows.
-     * @param n Number of colums.
+     * @param n Number of columns.
      * @param s Fill the matrix with this scalar value.
      */
     public Matrix(int m, int n, double s)
