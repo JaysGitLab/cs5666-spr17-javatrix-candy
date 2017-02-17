@@ -582,7 +582,8 @@ public class Matrix
      * @param b - another matrix
      * @return Matrix product, A * B
      * 
-     * @throws java.lang.IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException - Matrix inner dimensions must
+     *             agree.
      */
     public Matrix times(Matrix b) throws IllegalArgumentException
     {
@@ -590,7 +591,7 @@ public class Matrix
     }
 
     /**
-     * Multiply a matrix by a scalar, C = s*A.
+     * Multiply a matrix by a scalar, C = s*A. Dot product
      * 
      * 
      * @param s - scalar

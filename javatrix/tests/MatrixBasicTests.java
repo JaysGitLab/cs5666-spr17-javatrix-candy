@@ -784,7 +784,8 @@ public class MatrixBasicTests
     }
 
     /**
-     * Tests the times method where the parameter is another matrix.
+     * Tests the times method where the parameter is another matrix. Dot product
+     * style.
      */
     @Test
     public void testTimesParamMatrix()
@@ -801,8 +802,13 @@ public class MatrixBasicTests
             Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
             internalMatrixField.setAccessible(true);
 
-            Matrix caller = new Matrix(3, 4, 5.0);
-            Matrix argument = new Matrix(3, 4, 2.0);
+            //@formatter:off
+            double[][] first = new double[][] {{3, 1, 2 }, {-2, 0, 5 } };
+            double[][] sec = new double[][] {{-1, 3 }, {0, 5 }, {2, 5 } };
+            //@formatter:on
+
+            Matrix caller = new Matrix(first);
+            Matrix argument = new Matrix(sec);
             Matrix result = (Matrix) functionPointer.invoke(caller, argument);
 
             // Instance check
@@ -817,16 +823,36 @@ public class MatrixBasicTests
             double[][] argField = (double[][]) internalMatrixField
                     .get(argument);
 
-            for (int i = 0; i < resultField.length; ++i)
-            {
-                for (int j = 0; j < resultField[0].length; ++j)
-                {
-                    assertTrue("results invalid",
-                            resultField[i][j] == callerField[i][j]
-                                    * argField[i][j]);
-                }
-            }
+            assertTrue("result cols should match "
+                    + "callee rows and argument cols", argField.length == 2);
+            assertTrue("result rows should match"
+                    + "callee rows and argument cols", argField[0].length == 2);
 
+            // test values
+            // https://www.youtube.com/watch?v=OAh573i_qn8#t=441.673302
+            assertEquals(argField[0][0], 1.0, 0.001);
+            assertEquals(argField[0][1], 24.0, 0.001);
+            assertEquals(argField[1][0], 12.0, 0.001);
+            assertEquals(argField[1][1], 19.0, 0.001);
+
+            // make sure an exception is thrown
+            try
+            {
+                Matrix incompatible = new Matrix(5, 5);
+
+                // below should throw exception
+                Matrix result2 = (Matrix) functionPointer.invoke(caller,
+                        incompatible);
+
+                fail("did not throw exception on incompatible dimensions");
+                System.out.println(result2.toString());
+            }
+            catch (IllegalArgumentException a)
+            {
+                //will always be true - just demo-ing type checking
+                assertTrue("Exception type must be IllegalArgumentException",
+                        a instanceof IllegalArgumentException);
+            }
             // check that two fields are not shallow copied
             assertTrue("caller and result have same internal matrix",
                     resultField != callerField);
@@ -1115,8 +1141,10 @@ public class MatrixBasicTests
             // get the private matrix field to test
             Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
             internalMatrixField.setAccessible(true);
-
+            //@formatter:off
             int[] rows = {1, 2, 4 };
+            //@formatter:on
+
             int j0 = 3;
             int j1 = 6;
             double value = 8.0;
@@ -1207,9 +1235,11 @@ public class MatrixBasicTests
             Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
             internalMatrixField.setAccessible(true);
 
+            //@formatter:off
             int[] rows = {1, 2, 4 };
             int[] cols = {1, 2, 4 };
             double value = 8.0;
+            //@formatter:on
 
             double[][] src = new double[7][7];
             for (int i : rows)
@@ -1296,8 +1326,9 @@ public class MatrixBasicTests
             // get the private matrix field to test
             Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
             internalMatrixField.setAccessible(true);
-
+            //@formatter:off
             int[] cols = {1, 2, 4 };
+            //@formatter:on
             int i0 = 3;
             int i1 = 6;
             double value = 8.0;
