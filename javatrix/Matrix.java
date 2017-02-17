@@ -513,4 +513,103 @@ public class Matrix
         }
         return ret;
     }
+
+    /**
+     * Get a sub-matrix.
+     * 
+     * @param i0 - Initial row index
+     * @param i1 - Final row index
+     * @param j0 - Initial column index
+     * @param j1 - Final column index
+     * @return A(r(:),c(:))
+     * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
+     */
+    public Matrix getMatrix(int i0, int i1, int j0, int j1)
+    {
+
+        return null;
+    }
+
+    /**
+     * Get a sub-matrix.
+     * 
+     * @param r - Array of row indices
+     * @param j0 - Initial column index
+     * @param j1 - Final column index
+     * @return A(r(:),c(:))
+     * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
+     */
+    public Matrix getMatrix(int[] r, int j0, int j1)
+    {
+
+        return null;
+    }
+
+    /**
+     * Get a sub-matrix.
+     * 
+     * @param i0 - Initial row index
+     * @param i1 - Final row index
+     * @param c - Array of column indices
+     * @return A(r(:),c(:))
+     * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
+     */
+    public Matrix getMatrix(int i0, int i1, int[] c)
+            throws ArrayIndexOutOfBoundsException
+    {
+
+        return null;
+    }
+
+    /**
+     * Get a submatrix.
+     * 
+     * @param r - Array of row indices
+     * @param c - Array of column indicies
+     * @return A(r(:),c(:))
+     * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
+     */
+    public Matrix getMatrix(int[] r, int[] c)
+            throws ArrayIndexOutOfBoundsException
+    {
+        return null;
+    }
+
+    /**
+     * public Matrix times(Matrix B) Linear algebraic matrix multiplication, A *
+     * B.
+     * 
+     * @param b - another matrix
+     * @return Matrix product, A * B
+     * 
+     * @throws java.lang.IllegalArgumentException
+     */
+    public Matrix times(Matrix b) throws IllegalArgumentException
+    {
+        return null;
+    }
+
+    /**
+     * Multiply a matrix by a scalar, C = s*A.
+     * 
+     * 
+     * @param s - scalar
+     * @return s * A
+     */
+    public Matrix times(double s)
+    {
+        return null;
+    }
+
+    /**
+     * Multiply a matrix by a scalar in place, A = s*A.
+     * 
+     * 
+     * @param s - scalar
+     * @return s * A
+     */
+    public Matrix timesEquals(double s)
+    {
+        return null;
+    }
 }
