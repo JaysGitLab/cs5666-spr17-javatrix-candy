@@ -1,5 +1,7 @@
 package javatrix;
 
+import java.util.Random;
+
 /**
  * A class that provides the functionality of a basic matrx.
  * 
@@ -12,6 +14,7 @@ package javatrix;
  */
 public class Matrix
 {
+    private static Random rng = new Random();
     private double[][] matrix;
     private int rows;
     private int cols;
@@ -47,7 +50,7 @@ public class Matrix
      * Construct an m-by-n constant matrix.
      * 
      * @param m Number of rows.
-     * @param n Number of colums.
+     * @param n Number of columns.
      * @param s Fill the matrix with this scalar value.
      */
     public Matrix(int m, int n, double s)
@@ -301,4 +304,213 @@ public class Matrix
         }
     }
 
+    /**
+     * Determines if two matrices have the same dimensions based on their matrix
+     * field.
+     * 
+     * O(# of rows in a)
+     * 
+     * @param a the first matrix to compare.
+     * @param b the second matrix to compare.
+     * @return returns true if matrices have same dimension, false otherwise.
+     */
+    private boolean twoMatricesAreSameSize(Matrix a, Matrix b)
+    {
+        // check row numbers
+        if (a.matrix.length != b.matrix.length)
+        {
+            return false;
+        }
+
+        // check column numbers
+        for (int i = 0; i < a.matrix.length; ++i)
+        {
+            if (a.matrix[i].length != b.matrix[i].length)
+            {
+                return false;
+            }
+        }
+
+        // all checks are done, return true
+        return true;
+    }
+
+    /**
+     * Add two matrices.
+     * 
+     * C = A + B
+     * 
+     * @param b - another matrix
+     * @return a + b where a is the calling matrix.
+     */
+    public Matrix plus(Matrix b)
+    {
+        // check that matrices are of the same size
+        if (!twoMatricesAreSameSize(this, b))
+        {
+            throw new IllegalArgumentException(
+                    "matrix argument is of different size");
+        }
+
+        // Create something to return;
+        // Don't want to use ROW and COL to avoid stale code risks.
+        Matrix ret = new Matrix(this.matrix.length, this.matrix[0].length);
+
+        // loop through rows
+        for (int i = 0; i < this.matrix.length; ++i)
+        {
+            // loop through columns
+            for (int j = 0; j < this.matrix[i].length; ++j)
+            {
+                ret.matrix[i][j] = this.matrix[i][j] + b.matrix[i][j];
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Add two matrices.
+     * 
+     * A = A + B
+     * 
+     * @param b - another matrix
+     * @return a + b where a is the calling matrix.
+     */
+    public Matrix plusEquals(Matrix b)
+    {
+        // check that matrices are of the same size
+        if (!twoMatricesAreSameSize(this, b))
+        {
+            throw new IllegalArgumentException(
+                    "matrix argument is of different size");
+        }
+
+        // loop through rows
+        for (int i = 0; i < this.matrix.length; ++i)
+        {
+            // loop through columns
+            for (int j = 0; j < this.matrix[i].length; ++j)
+            {
+                this.matrix[i][j] += b.matrix[i][j];
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Subtract two matrices.
+     * 
+     * C = A - B
+     * 
+     * @param b another matrix
+     * @return a - b where a is the calling matrix.
+     */
+    public Matrix minus(Matrix b)
+    {
+        // check that matrices are of the same size
+        if (!twoMatricesAreSameSize(this, b))
+        {
+            throw new IllegalArgumentException(
+                    "matrix argument is of different size");
+        }
+
+        // Create something to return;
+        // Don't want to use ROW and COL to avoid stale code risks.
+        Matrix ret = new Matrix(this.matrix.length, this.matrix[0].length);
+
+        // loop through rows
+        for (int i = 0; i < this.matrix.length; ++i)
+        {
+            // loop through columns
+            for (int j = 0; j < this.matrix[i].length; ++j)
+            {
+                ret.matrix[i][j] = this.matrix[i][j] - b.matrix[i][j];
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Subtract two matrices, but start the result in the calling matrix.
+     * 
+     * A = A - B
+     * 
+     * @param b another matrix
+     * @return a - b where a is the calling matrix.
+     */
+    public Matrix minusEquals(Matrix b)
+    {
+
+        // check that matrices are of the same size
+        if (!twoMatricesAreSameSize(this, b))
+        {
+            throw new IllegalArgumentException(
+                    "matrix argument is of different size");
+        }
+
+        // loop through rows
+        for (int i = 0; i < this.matrix.length; ++i)
+        {
+            // loop through columns
+            for (int j = 0; j < this.matrix[i].length; ++j)
+            {
+                this.matrix[i][j] -= b.matrix[i][j];
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Element-by-element multiplication in place.
+     * 
+     * A = A *B
+     * 
+     * @param b another matrix
+     * @return a - b ; where a is the calling matrix.
+     */
+    public Matrix arrayTimesEquals(Matrix b)
+    {
+        // check that matrices are of the same size
+        if (!twoMatricesAreSameSize(this, b))
+        {
+            throw new IllegalArgumentException(
+                    "matrix argument is of different size");
+        }
+
+        // loop through rows
+        for (int i = 0; i < this.matrix.length; ++i)
+        {
+            // loop through columns
+            for (int j = 0; j < this.matrix[i].length; ++j)
+            {
+                this.matrix[i][j] *= b.matrix[i][j];
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Generate matrix with random element.
+     * 
+     * @param m - number of rows
+     * @param n - number of columns
+     * @return An m-by-n matrix with uniformly distributed random elements.
+     */
+    public static Matrix random(int m, int n)
+    {
+        Matrix ret = new Matrix(m, n);
+        for (int i = 0; i < ret.matrix.length; ++i)
+        {
+            for (int j = 0; j < ret.matrix[i].length; ++j)
+            {
+                ret.matrix[i][j] = Matrix.rng.nextDouble();
+            }
+        }
+        return ret;
+    }
 }
