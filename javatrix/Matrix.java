@@ -722,4 +722,31 @@ public class Matrix
 
         return this;
     }
+    
+    /**
+     * method that creates a identity matrix for any n x m matrix
+     * 
+     * @param m - the m dimension or rows of the matrix 
+     * @param n - the n dimension or columns of the matrix
+     * 
+     */
+    public static Matrix identity(int m, int n)
+    {
+    	Matrix matrix = new Matrix(m,n);
+    	for(int i = 0; i < m; i++)
+    	{
+    		for (int j = 0; j < n; j++)
+    		{
+    			if(m == n)
+    			{
+    				matrix[i][j] = 1;
+    			}
+    			else
+    			{
+    				matrix[i][j] = 0;
+    			}
+    		}
+    	}
+    	return matrix;
+   }
 }
