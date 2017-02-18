@@ -1404,4 +1404,628 @@ public class MatrixBasicTests
             fail("exception occured" + allOthers.toString());
         }
     }
+
+    /**
+     * Test the setMatrix that uses 4 int parameters.
+     */
+    @Test
+    public void testSetMatrix4Ints()
+    {
+        String methodName = "setMatrix";
+        try
+        {
+            // Get a handle on the method
+            Method functionPointer = Matrix.class.getDeclaredMethod(methodName,
+                    int.class, int.class, int.class, int.class, Matrix.class);
+            functionPointer.setAccessible(true);
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
+            int i0 = 3;
+            int i1 = 6;
+            int j0 = 3;
+            int j1 = 6;
+            double value = 8.0;
+
+            double[][] src = new double[7][7];
+            double[][] argMatSrc = new double[i1 - i0 + 1][j1 - j0 + 1];
+
+            // init the array
+            for (int i = 0; i < argMatSrc.length; ++i)
+            {
+                for (int j = 0; j < argMatSrc[i].length; ++j)
+                {
+                    argMatSrc[i][j] = value;
+                }
+            }
+
+            for (int i = i0; i <= i1; ++i)
+            {
+                for (int j = j0; j <= j1; ++j)
+                {
+                    src[i][j] = value - 1;
+                }
+            }
+            Matrix caller = new Matrix(src);
+            Matrix argument = new Matrix(argMatSrc);
+
+            functionPointer.invoke(caller, i0, i1, j0, j1, argument);
+            Matrix result = caller;
+
+            // Instance check
+            assertTrue("the returned object is the same "
+                    + "instance as calling object", caller != result);
+
+            // value checks
+            double[][] resultField = (double[][]) internalMatrixField
+                    .get(result);
+
+            assertTrue("inccorect number of rows: " + resultField.length,
+                    resultField.length == i1 - i0 + 1);
+
+            for (int i = 0; i < resultField.length; ++i)
+            {
+                assertTrue("row " + i + " has incorrect column number",
+                        resultField[i].length == j1 - j0 + 1);
+                for (int j = 0; j < resultField[0].length; ++j)
+                {
+                    assertEquals("results invalid", value, resultField[i][j],
+                            0.001);
+                }
+            }
+
+        }
+        catch (NoSuchMethodException e)
+        {
+            fail("Method " + methodName + "could not be found");
+        }
+        catch (IllegalAccessException e)
+        {
+            fail("Method could not be accessed");
+        }
+        catch (IllegalArgumentException e)
+        {
+            fail("Test gave bad argument to method\n test provided");
+        }
+        catch (InvocationTargetException e)
+        {
+            fail("Method found, but could not invoke the method");
+        }
+        catch (NoSuchFieldException e)
+        {
+            fail("Could not load the matrix private array field");
+        }
+        catch (Exception allOthers)
+        {
+            allOthers.printStackTrace();
+            fail("exception occured" + allOthers.toString());
+        }
+    }
+
+    /**
+     * Test the setMatrix that uses an int[] parameter followed by 2 int
+     * parameters.
+     */
+    @Test
+    public void testSetMatrixArray2Ints()
+    {
+        String methodName = "setMatrix";
+        try
+        {
+            // Get a handle on the method
+            Method functionPointer = Matrix.class.getDeclaredMethod(methodName,
+                    int[].class, int.class, int.class, Matrix.class);
+            functionPointer.setAccessible(true);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+            //@formatter:off
+            int[] rows = {1, 2, 4 };
+            //@formatter:on
+
+            int j0 = 3;
+            int j1 = 6;
+            double value = 8.0;
+
+            double[][] argMatSrc = new double[rows.length][j1 - j0 + 1];
+
+            // init the array
+            for (int i = 0; i < argMatSrc.length; ++i)
+            {
+                for (int j = 0; j < argMatSrc[i].length; ++j)
+                {
+                    argMatSrc[i][j] = value;
+                }
+            }
+
+            double[][] src = new double[7][7];
+            for (int i : rows)
+            {
+                for (int j = j0; j <= j1; ++j)
+                {
+                    // change the value so that it doesn't pass test.
+                    // value is what will be used to determine correct
+                    // positions in array were tested.
+                    src[i][j] = value - 5.0;
+                }
+            }
+            Matrix caller = new Matrix(src);
+            Matrix argument = new Matrix(argMatSrc);
+
+            functionPointer.invoke(caller, rows, j0, j1, argument);
+            Matrix result = caller;
+
+            // Instance check
+            assertTrue("the returned object is the same "
+                    + "instance as calling object", caller != result);
+
+            // value checks
+            double[][] resultField = (double[][]) internalMatrixField
+                    .get(result);
+            double[][] callerField = (double[][]) internalMatrixField
+                    .get(caller);
+
+            assertTrue("inccorect number of rows: " + resultField.length,
+                    resultField.length == rows.length);
+
+            for (int i = 0; i < resultField.length; ++i)
+            {
+                assertTrue("row " + i + " has incorrect column number",
+                        resultField[i].length == j1 - j0 + 1);
+                for (int j = 0; j < resultField[0].length; ++j)
+                {
+                    assertTrue("results invalid", resultField[i][j] == value);
+                }
+            }
+
+            // check values
+            assertTrue("caller and result should have same internal matrix",
+                    resultField == callerField);
+
+        }
+        catch (NoSuchMethodException e)
+        {
+            fail("Method " + methodName + "could not be found");
+        }
+        catch (IllegalAccessException e)
+        {
+            fail("Method could not be accessed");
+        }
+        catch (IllegalArgumentException e)
+        {
+            fail("Test gave bad argument to method\n test provided");
+        }
+        catch (InvocationTargetException e)
+        {
+            fail("Method found, but could not invoke the method");
+        }
+        catch (NoSuchFieldException e)
+        {
+            fail("Could not load the matrix private array field");
+        }
+        catch (Exception allOthers)
+        {
+            allOthers.printStackTrace();
+            fail("exception occured" + allOthers.toString());
+        }
+    }
+
+    /**
+     * Test the setMatrix that uses two int parameters followed by an int array.
+     */
+    @Test
+    public void testSetMatrix2IntsArray()
+    {
+        String methodName = "setMatrix";
+        try
+        {
+            // Get a handle on the method
+            Method functionPointer = Matrix.class.getDeclaredMethod(methodName,
+                    int.class, int.class, int[].class, Matrix.class);
+            functionPointer.setAccessible(true);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+            //@formatter:off
+            int[] cols = {1, 2, 4 };
+            //@formatter:on
+            int i0 = 3;
+            int i1 = 6;
+            double value = 8.0;
+
+            double[][] argMatSrc = new double[1 + i1 - i0][cols.length];
+            // init the array
+            for (int i = 0; i < argMatSrc.length; ++i)
+            {
+                for (int j = 0; j < argMatSrc[i].length; ++j)
+                {
+                    argMatSrc[i][j] = value;
+                }
+            }
+
+            double[][] src = new double[7][7];
+            for (int i = i0; i <= i1; ++i)
+            {
+                for (int j : cols)
+                {
+                    src[i][j] = value - 5.0;
+                }
+            }
+            Matrix caller = new Matrix(src);
+            Matrix argument = new Matrix(argMatSrc);
+
+            functionPointer.invoke(caller, i0, i1, cols, argument);
+            Matrix result = caller;
+
+            // Instance check
+            assertTrue("the returned object is the same "
+                    + "instance as calling object", caller != result);
+
+            // value checks
+            double[][] resultField = (double[][]) internalMatrixField
+                    .get(result);
+
+            assertTrue("inccorect number of rows: " + resultField.length,
+                    resultField.length == i1 - i0 + 1);
+
+            for (int i = 0; i < resultField.length; ++i)
+            {
+                assertTrue("row " + i + " has incorrect column number",
+                        resultField[i].length == cols.length);
+                for (int j = 0; j < resultField[0].length; ++j)
+                {
+                    assertTrue("results invalid", resultField[i][j] == value);
+                }
+            }
+        }
+        catch (NoSuchMethodException e)
+        {
+            fail("Method " + methodName + "could not be found");
+        }
+        catch (IllegalAccessException e)
+        {
+            fail("Method could not be accessed");
+        }
+        catch (IllegalArgumentException e)
+        {
+            fail("Test gave bad argument to method\n test provided");
+        }
+        catch (InvocationTargetException e)
+        {
+            fail("Method found, but could not invoke the method");
+        }
+        catch (NoSuchFieldException e)
+        {
+            fail("Could not load the matrix private array field");
+        }
+        catch (Exception allOthers)
+        {
+            allOthers.printStackTrace();
+            fail("exception occured" + allOthers.toString());
+        }
+    }
+
+    /**
+     * Test the setMatrix that has two int[] parameters.
+     */
+    @Test
+    public void testSetMatrixArrayArray()
+    {
+        String methodName = "setMatrix";
+        try
+        {
+            // Get a handle on the method
+            Method functionPointer = Matrix.class.getDeclaredMethod(methodName,
+                    int[].class, int[].class, Matrix.class);
+            functionPointer.setAccessible(true);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
+            //@formatter:off
+            int[] rows = {1, 2, 4 };
+            int[] cols = {1, 2, 4 };
+            double value = 8.0;
+            //@formatter:on
+
+            double[][] argMatSrc = new double[rows.length][cols.length];
+
+            // init the array
+            for (int i = 0; i < argMatSrc.length; ++i)
+            {
+                for (int j = 0; j < argMatSrc[i].length; ++j)
+                {
+                    argMatSrc[i][j] = value;
+                }
+            }
+
+            double[][] src = new double[7][7];
+            for (int i : rows)
+            {
+                for (int j : cols)
+                {
+                    src[i][j] = value - 5.0;
+                }
+            }
+            Matrix caller = new Matrix(src);
+            Matrix argument = new Matrix(argMatSrc);
+
+            Matrix result = (Matrix) functionPointer.invoke(caller, rows, cols,
+                    argument);
+
+            // Instance check
+            assertTrue("the returned object is the same "
+                    + "instance as calling object", caller != result);
+
+            // value checks
+            double[][] resultField = (double[][]) internalMatrixField
+                    .get(result);
+
+            assertTrue("inccorect number of rows: " + resultField.length,
+                    resultField.length == rows.length);
+
+            for (int i = 0; i < resultField.length; ++i)
+            {
+                assertTrue("row " + i + " has incorrect column number",
+                        resultField[i].length == cols.length);
+                for (int j = 0; j < resultField[0].length; ++j)
+                {
+                    assertTrue("results invalid", resultField[i][j] == value);
+                }
+            }
+
+        }
+        catch (NoSuchMethodException e)
+        {
+            fail("Method " + methodName + "could not be found");
+        }
+        catch (IllegalAccessException e)
+        {
+            fail("Method could not be accessed");
+        }
+        catch (IllegalArgumentException e)
+        {
+            fail("Test gave bad argument to method\n test provided");
+        }
+        catch (InvocationTargetException e)
+        {
+            fail("Method found, but could not invoke the method");
+        }
+        catch (NoSuchFieldException e)
+        {
+            fail("Could not load the matrix private array field");
+        }
+        catch (Exception allOthers)
+        {
+            allOthers.printStackTrace();
+            fail("exception occured" + allOthers.toString());
+        }
+    }
+
+    /**
+     * Test the "get Array" function.
+     */
+    @Test
+    public void testGetArray()
+    {
+        // create two matrices to multiply
+        String methodName = "getArray";
+        Matrix one = new Matrix(4, 4, 10);
+
+        // get method
+        try
+        {
+            // get a reflection to method (like a function pointer)
+            Method funcPtr = Matrix.class.getMethod(methodName);
+            // set the accessibility to public
+            funcPtr.setAccessible(true);
+
+            // invoke method and check results
+            double[][] result = (double[][]) funcPtr.invoke(one);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
+            double[][] onePvArr = (double[][]) internalMatrixField.get(one);
+
+            assertTrue("should return internal array, not copy",
+                    onePvArr == result);
+
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            fail("Cannot find method: " + methodName);
+        }
+        catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+            fail("failed to invoke the " + methodName + ".");
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            fail("Exception occured - stack trace printed");
+        }
+    }
+
+    /**
+     * Tests the arrayCopy method.
+     */
+    @Test
+    public void getArrayCopy()
+    {
+        // create two matrices to multiply
+        String methodName = "getArrayCopy";
+        Matrix one = new Matrix(4, 4, 10);
+
+        // get method
+        try
+        {
+            // get a reflection to method (like a function pointer)
+            Method funcPtr = Matrix.class.getMethod(methodName);
+            // set the accessibility to public
+            funcPtr.setAccessible(true);
+
+            // invoke method and check results
+            double[][] result = (double[][]) funcPtr.invoke(one);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
+            double[][] onePvArr = (double[][]) internalMatrixField.get(one);
+
+            assertTrue("internal matrix and returned should not be not same",
+                    onePvArr != result);
+
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            fail("Cannot find method: " + methodName);
+        }
+        catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+            fail("failed to invoke the " + methodName + ".");
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            fail("Exception occured - stack trace printed");
+        }
+    }
+
+    /**
+     * Tests the clone method.
+     */
+    @Test
+    public void testClone()
+    {
+        // create two matrices to multiply
+        String methodName = "clone";
+        Matrix one = new Matrix(4, 4, 10);
+
+        // get method
+        try
+        {
+            // get a reflection to method (like a function pointer)
+            Method funcPtr = Matrix.class.getMethod(methodName);
+            // set the accessibility to public
+            funcPtr.setAccessible(true);
+
+            // invoke method and check results
+            Matrix result = (Matrix) funcPtr.invoke(one);
+
+            assertTrue("clone should not return caller", result != one);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
+            double[][] onePvArr = (double[][]) internalMatrixField.get(one);
+            double[][] resultPvArr = (double[][]) internalMatrixField
+                    .get(result);
+
+            Field rowsField = Matrix.class.getDeclaredField("rows");
+            rowsField.setAccessible(true);
+            Field colsField = Matrix.class.getDeclaredField("cols");
+            colsField.setAccessible(true);
+            assertTrue("clone should have same number of rows",
+                    onePvArr.length == resultPvArr.length);
+            assertTrue("clone should have same number of cols",
+                    onePvArr[0].length == resultPvArr[0].length);
+            assertEquals("cols field should match",
+                    (Integer) colsField.get(one),
+                    (Integer) colsField.get(result));
+            assertEquals("rows field should match",
+                    (Integer) rowsField.get(one),
+                    (Integer) rowsField.get(result));
+
+            for (int i = 0; i < onePvArr.length; ++i)
+            {
+                for (int j = 0; j < resultPvArr.length; ++j)
+                {
+                    assertEquals("element mismatch on clone in intenral array",
+                            onePvArr[i][j], resultPvArr[i][j], 0.001);
+                }
+            }
+
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            fail("Cannot find method: " + methodName);
+        }
+        catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+            fail("failed to invoke the " + methodName + ".");
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            fail("Exception occured - stack trace printed");
+        }
+    }
+
+    /**
+     * Tests the trace method.
+     */
+    @Test
+    public void testTrace()
+    {
+        // create two matrices to multiply
+        String methodName = "trace";
+        Matrix one = new Matrix(4, 4, 10);
+        Double sum = 50.0;
+
+        // get method
+        try
+        {
+            // get a reflection to method (like a function pointer)
+            Method funcPtr = Matrix.class.getMethod(methodName);
+            // set the accessibility to public
+            funcPtr.setAccessible(true);
+
+            // invoke method and check results
+            Double result = (Double) funcPtr.invoke(one);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
+            double[][] onePvArr = (double[][]) internalMatrixField.get(one);
+            onePvArr[1][1] = 20.0;
+            // assertTrue("internal matrix and returned should not be not same",
+            // onePvArr != result);
+
+            assertEquals(
+                    "the method should have sumed the left to right diagonal",
+                    sum, result);
+
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            fail("Cannot find method: " + methodName);
+        }
+        catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+            fail("failed to invoke the " + methodName + ".");
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            fail("Exception occured - stack trace printed");
+        }
+    }
+
 }
