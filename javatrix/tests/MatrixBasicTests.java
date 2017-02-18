@@ -1190,7 +1190,7 @@ public class MatrixBasicTests
             }
 
             // check values
-            assertTrue("caller and result have same internal matrix",
+            assertTrue("caller and result have same internal matrix",           
                     resultField != callerField);
 
         }
@@ -1404,4 +1404,69 @@ public class MatrixBasicTests
             fail("exception occured" + allOthers.toString());
         }
     }
+    
+    /**
+     * test for the identity matrix formulation
+     * */
+    
+    @Test    
+    public void testIdentity()
+    {
+    	// create two matrices to multiply
+        int m = 5;
+        int n = 4;
+
+        
+        try
+        {
+            Matrix matrix = Matrix.identity(5,4);
+            for (int i = 0; i < m; i++)
+            {
+            	for (int j = 0; j < n; j++)
+            	{
+            		if (m == n)
+            		{
+            			assertEquals(1.0, matrix.get(i,j),0.0001);
+            		}
+            	}
+            }
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            fail("Exception occured - stack trace printed");
+        }
+    }
+    
+    /**
+     * test for the unary minus
+     * */
+    
+    @Test    
+    public void testUminus()
+    {
+    	// create two matrices to multiply
+        int m = 5;
+        int n = 4;
+
+        
+        try
+        {
+            Matrix matrix = new Matrix(m,n,2.0);
+            
+            matrix = matrix.uminus();
+            
+            for (int i = 0; i < m; i++)
+            {
+            	for (int j = 0; j < n; j++)
+            	{
+            		assertEquals(-2.0, matrix.get(i,j),0.0001);
+            	}
+            }
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            fail("Exception occured - stack trace printed");
+        }
 }
