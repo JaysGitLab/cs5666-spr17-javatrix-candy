@@ -71,6 +71,8 @@ public class TestConstructor
                             a[i][j] == privMatrix[i][j]);
                 }
             }
+            
+            assertTrue(privMatrix != a);
         }
         // having to catch these instead of throwing them because checkstyle
         // doesn't work well with @test annotation
