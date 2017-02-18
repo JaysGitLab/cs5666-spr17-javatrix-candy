@@ -1190,7 +1190,7 @@ public class MatrixBasicTests
             }
 
             // check values
-            assertTrue("caller and result have same internal matrix",           
+            assertTrue("caller and result have same internal matrix",
                     resultField != callerField);
 
         }
@@ -1404,31 +1404,31 @@ public class MatrixBasicTests
             fail("exception occured" + allOthers.toString());
         }
     }
-    
+
     /**
-     * test for the identity matrix formulation
+     * test for the identity matrix formulation.
      * */
-    
-    @Test    
+
+    @Test
     public void testIdentity()
     {
-    	// create two matrices to multiply
+        // create two matrices to multiply
         int m = 5;
         int n = 4;
 
-        
         try
         {
-            Matrix matrix = Matrix.identity(5,4);
+            Matrix matrix = Matrix.identity(5, 4);
             for (int i = 0; i < m; i++)
             {
-            	for (int j = 0; j < n; j++)
-            	{
-            		if (m == n)
-            		{
-            			assertEquals(1.0, matrix.get(i,j),0.0001);
-            		}
-            	}
+                for (int j = 0; j < n; j++)
+                {
+                    // This needs to change, it is never true. i==j?
+                    if (m == n)
+                    {
+                        assertEquals(1.0, matrix.get(i, j), 0.0001);
+                    }
+                }
             }
         }
         catch (Exception all)
@@ -1437,31 +1437,30 @@ public class MatrixBasicTests
             fail("Exception occured - stack trace printed");
         }
     }
-    
+
     /**
-     * test for the unary minus
+     * test for the unary minus.
      * */
-    
-    @Test    
+
+    @Test
     public void testUminus()
     {
-    	// create two matrices to multiply
+        // create two matrices to multiply
         int m = 5;
         int n = 4;
 
-        
         try
         {
-            Matrix matrix = new Matrix(m,n,2.0);
-            
+            Matrix matrix = new Matrix(m, n, 2.0);
+
             matrix = matrix.uminus();
-            
+
             for (int i = 0; i < m; i++)
             {
-            	for (int j = 0; j < n; j++)
-            	{
-            		assertEquals(-2.0, matrix.get(i,j),0.0001);
-            	}
+                for (int j = 0; j < n; j++)
+                {
+                    assertEquals(-2.0, matrix.get(i, j), 0.0001);
+                }
             }
         }
         catch (Exception all)
@@ -1469,4 +1468,5 @@ public class MatrixBasicTests
             all.printStackTrace();
             fail("Exception occured - stack trace printed");
         }
+    }
 }

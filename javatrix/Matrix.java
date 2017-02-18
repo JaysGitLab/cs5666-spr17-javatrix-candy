@@ -528,7 +528,7 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int i0, int i1, int j0, int j1)
-    //@formatter:off
+//@formatter:off
         throws ArrayIndexOutOfBoundsException
     //@formatter:on
     {
@@ -555,7 +555,7 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int[] r, int j0, int j1)
-    //@formatter:off
+//@formatter:off
         throws ArrayIndexOutOfBoundsException
     //@formatter:on
     {
@@ -581,7 +581,7 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int i0, int i1, int[] c)
-    //@formatter:off
+//@formatter:off
         throws ArrayIndexOutOfBoundsException
     //@formatter:on
     {
@@ -606,7 +606,7 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int[] r, int[] c)
-    //@formatter:off
+//@formatter:off
         throws ArrayIndexOutOfBoundsException
     //@formatter:on
     {
@@ -722,51 +722,53 @@ public class Matrix
 
         return this;
     }
-    
+
     /**
-     * method that creates a identity matrix for any n x m matrix
+     * method that creates a identity matrix for any n x m matrix.
      * 
-     * @param m - the m dimension or rows of the matrix 
+     * @param m - the m dimension or rows of the matrix
      * @param n - the n dimension or columns of the matrix
-     * 
+     * @return the identity matrix!
      */
     public static Matrix identity(int m, int n)
     {
-    	Matrix matrix = new Matrix(m,n);
-    	for(int i = 0; i < m; i++)
-    	{
-    		for (int j = 0; j < n; j++)
-    		{
-    			if(m == n)
-    			{
-    				matrix.set(i,j,1.0);
-    			}
-    			else
-    			{
-    				matrix.set(i,j,0);
-    			}
-    		}
-    	}
-    	return matrix;
+        Matrix matrix = new Matrix(m, n);
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (m == n)
+                {
+                    matrix.set(i, j, 1.0);
+                }
+                else
+                {
+                    matrix.set(i, j, 0);
+                }
+            }
+        }
+        return matrix;
     }
-    
+
     /**
-     * method that creates a negative matrix for any n x m matrix
+     * method that creates a negative matrix for any n x m matrix.
+     * 
+     * @return the matrix negated
      */
     public Matrix uminus()
     {
-    	int m = this.getRowDimensions();
-    	int n = this.getColumnDimensions();
-    	
-    	for(int i = 0; i < m; i++)
-    	{
-    		for (int j = 0; j < n; j++)
-    		{
-    			double a = this.get(i,j);
-    			a = -a;
-    			this.set(i,j,a);
-    		}
-    	}
-    	return this;
-    }    
+        int m = this.getRowDimension();
+        int n = this.getColumnDimension();
+
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                double a = this.get(i, j);
+                a = -a;
+                this.set(i, j, a);
+            }
+        }
+        return this;
+    }
 }
