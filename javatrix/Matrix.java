@@ -739,11 +739,11 @@ public class Matrix
     		{
     			if(m == n)
     			{
-    				matrix[i][j] = 1;
+    				matrix.set(i,j,1.0);
     			}
     			else
     			{
-    				matrix[i][j] = 0;
+    				matrix.set(i,j,0);
     			}
     		}
     	}
