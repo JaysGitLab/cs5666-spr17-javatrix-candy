@@ -814,7 +814,7 @@ public class Matrix
     /**
      * Clone the Matrix object.
      * 
-     * @returns the clone of the matrix.
+     * @return the clone of the matrix.
      */
     @Override
     public Matrix clone()
