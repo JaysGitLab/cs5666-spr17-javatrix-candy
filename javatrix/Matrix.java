@@ -528,7 +528,9 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int i0, int i1, int j0, int j1)
-            throws ArrayIndexOutOfBoundsException
+    //@formatter:off
+        throws ArrayIndexOutOfBoundsException
+    //@formatter:on
     {
 
         double[][] newArr = new double[i1 - i0 + 1][j1 - j0 + 1];
@@ -553,7 +555,9 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int[] r, int j0, int j1)
-            throws ArrayIndexOutOfBoundsException
+    //@formatter:off
+        throws ArrayIndexOutOfBoundsException
+    //@formatter:on
     {
         double[][] newArr = new double[r.length][j1 - j0 + 1];
         for (int i = 0; i < r.length; ++i)

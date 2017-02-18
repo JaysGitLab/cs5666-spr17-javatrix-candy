@@ -854,6 +854,7 @@ public class MatrixBasicTests
                 // because the "invoker" - for lack of a better word - is the
                 // thread
                 // encountering the exception.
+                System.out.println("Happy Checkstyle?");
             }
             // check that two fields are not shallow copied
             assertTrue("caller and result have same internal matrix",
