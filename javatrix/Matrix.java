@@ -753,7 +753,14 @@ public class Matrix
      */
     public void setMatrix(int[] r, int j0, int j1, Matrix x)
     {
+        for (int i = 0; i < r.length; ++i)
+        {
+            for (int j = 0, j0c = j0; j0c <= j1; ++j0c, ++j)
+            {
+                this.matrix[r[i]][j0c] = x.matrix[i][j];
+            }
 
+        }
     }
 
     /**
@@ -766,7 +773,13 @@ public class Matrix
      */
     public void setMatrix(int i0, int i1, int[] c, Matrix x)
     {
-
+        for (int i = 0; i0 <= i1; ++i0, ++i)
+        {
+            for (int j = 0; j < c.length; ++j)
+            {
+                this.matrix[i0][c[j]] = x.matrix[i][j];
+            }
+        }
     }
 
     /**
@@ -778,7 +791,13 @@ public class Matrix
      */
     public void setMatrix(int[] r, int[] c, Matrix x)
     {
-
+        for (int i = 0; i < r.length; ++i)
+        {
+            for (int j = 0; j < c.length; ++j)
+            {
+                this.matrix[r[i]][c[j]] = x.matrix[i][j];
+            }
+        }
     }
 
     /**

@@ -1557,7 +1557,7 @@ public class MatrixBasicTests
             double[][] callerField = (double[][]) internalMatrixField
                     .get(caller);
 
-            for (int i :rows)
+            for (int i : rows)
             {
                 for (int j = j0; j < j1; ++j)
                 {
@@ -1650,7 +1650,6 @@ public class MatrixBasicTests
             double[][] resultField = (double[][]) internalMatrixField
                     .get(result);
 
-
             for (int i = i0; i <= i1; ++i)
             {
                 for (int j : cols)
@@ -1733,9 +1732,8 @@ public class MatrixBasicTests
             Matrix caller = new Matrix(src);
             Matrix argument = new Matrix(argMatSrc);
 
-            Matrix result = (Matrix) functionPointer.invoke(caller, rows, cols,
-                    argument);
-
+            functionPointer.invoke(caller, rows, cols, argument);
+            Matrix result = caller;
 
             // value checks
             double[][] resultField = (double[][]) internalMatrixField
