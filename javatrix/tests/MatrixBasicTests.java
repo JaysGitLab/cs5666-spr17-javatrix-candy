@@ -823,17 +823,17 @@ public class MatrixBasicTests
             double[][] argField = (double[][]) internalMatrixField
                     .get(argument);
 
-            assertTrue("result cols should match "
-                    + "callee rows and argument cols", argField.length == 2);
-            assertTrue("result rows should match"
-                    + "callee rows and argument cols", argField[0].length == 2);
+            assertEquals("result cols should match "
+                    + "callee rows and argument cols", 2, callerField.length);
+            assertEquals("result rows should match"
+                    + "callee rows and argument cols", 2, argField[0].length);
 
             // test values
             // https://www.youtube.com/watch?v=OAh573i_qn8#t=441.673302
-            assertEquals(argField[0][0], 1.0, 0.001);
-            assertEquals(argField[0][1], 24.0, 0.001);
-            assertEquals(argField[1][0], 12.0, 0.001);
-            assertEquals(argField[1][1], 19.0, 0.001);
+            assertEquals(1.0, resultField[0][0], 0.001);
+            assertEquals(24.0, resultField[0][1], 0.001);
+            assertEquals(12.0, resultField[1][0], 0.001);
+            assertEquals(19.0, resultField[1][1], 0.001);
 
             // make sure an exception is thrown
             try
@@ -847,11 +847,13 @@ public class MatrixBasicTests
                 fail("did not throw exception on incompatible dimensions");
                 System.out.println(result2.toString());
             }
-            catch (IllegalArgumentException a)
+            catch (InvocationTargetException a)
             {
-                //will always be true - just demo-ing type checking
-                assertTrue("Exception type must be IllegalArgumentException",
-                        a instanceof IllegalArgumentException);
+                // An illegal argument exception gets converted to Invocation
+                // Exception
+                // because the "invoker" - for lack of a better word - is the
+                // thread
+                // encountering the exception.
             }
             // check that two fields are not shallow copied
             assertTrue("caller and result have same internal matrix",
@@ -921,8 +923,8 @@ public class MatrixBasicTests
             {
                 for (int j = 0; j < resultField[0].length; ++j)
                 {
-                    assertTrue("results invalid",
-                            resultField[i][j] == callerField[i][j] * argument);
+                    assertEquals("results invalid", callerField[i][j]
+                            * argument, resultField[i][j], 0.001);
                 }
             }
 
@@ -994,8 +996,8 @@ public class MatrixBasicTests
             {
                 for (int j = 0; j < resultField[0].length; ++j)
                 {
-                    assertTrue("results invalid",
-                            resultField[i][j] == callerField[i][j] * argument);
+                    assertEquals("results invalid", 10.0, resultField[i][j],
+                            0.001);
                 }
             }
 
@@ -1079,15 +1081,16 @@ public class MatrixBasicTests
                     .get(caller);
 
             assertTrue("inccorect number of rows: " + resultField.length,
-                    resultField.length == i1 - i0);
+                    resultField.length == i1 - i0 + 1);
 
             for (int i = 0; i < resultField.length; ++i)
             {
                 assertTrue("row " + i + " has incorrect column number",
-                        resultField[i].length == j1 - j0);
+                        resultField[i].length == j1 - j0 + 1);
                 for (int j = 0; j < resultField[0].length; ++j)
                 {
-                    assertTrue("results invalid", resultField[i][j] == value);
+                    assertEquals("results invalid", value, resultField[i][j],
+                            0.001);
                 }
             }
 
@@ -1178,7 +1181,7 @@ public class MatrixBasicTests
             for (int i = 0; i < resultField.length; ++i)
             {
                 assertTrue("row " + i + " has incorrect column number",
-                        resultField[i].length == j1 - j0);
+                        resultField[i].length == j1 - j0 + 1);
                 for (int j = 0; j < resultField[0].length; ++j)
                 {
                     assertTrue("results invalid", resultField[i][j] == value);
@@ -1357,7 +1360,7 @@ public class MatrixBasicTests
                     .get(caller);
 
             assertTrue("inccorect number of rows: " + resultField.length,
-                    resultField.length == i1 - i0);
+                    resultField.length == i1 - i0 + 1);
 
             for (int i = 0; i < resultField.length; ++i)
             {

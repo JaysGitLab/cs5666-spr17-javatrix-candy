@@ -33,6 +33,7 @@ public class Matrix
         cols = a[0].length;
         int rowLength = a[0].length;
 
+        this.matrix = new double[a.length][a[0].length];
         // Check to make sure all column lengths match the number of rows
         for (int i = 0; i < a.length; ++i)
         {
@@ -40,10 +41,12 @@ public class Matrix
             {
                 throw new IllegalArgumentException();
             }
+            for (int j = 0; j < a[i].length; ++j)
+            {
+                matrix[i][j] = a[i][j];
+            }
         }
 
-        // clone using the built in array clone.
-        matrix = a.clone();
     }
 
     /**
@@ -527,7 +530,16 @@ public class Matrix
     public Matrix getMatrix(int i0, int i1, int j0, int j1)
     {
 
-        return null;
+        double[][] newArr = new double[i1 - i0 + 1][j1 - j0 + 1];
+        for (int i = 0; i0 <= i1; ++i0, ++i)
+        {
+            for (int j = 0, j0c = j0; j0c <= j1; ++j0c, ++j)
+            {
+                newArr[i][j] = matrix[i0][j0c];
+            }
+
+        }
+        return new Matrix(newArr);
     }
 
     /**
@@ -541,8 +553,16 @@ public class Matrix
      */
     public Matrix getMatrix(int[] r, int j0, int j1)
     {
+        double[][] newArr = new double[r.length][j1 - j0 + 1];
+        for (int i = 0; i < r.length; ++i)
+        {
+            for (int j = 0, j0c = j0; j0c <= j1; ++j0c, ++j)
+            {
+                newArr[i][j] = matrix[r[i]][j0c];
+            }
 
-        return null;
+        }
+        return new Matrix(newArr);
     }
 
     /**
@@ -557,22 +577,39 @@ public class Matrix
     public Matrix getMatrix(int i0, int i1, int[] c)
             throws ArrayIndexOutOfBoundsException
     {
+        double[][] newArr = new double[i1 - i0 + 1][c.length];
+        for (int i = 0; i0 <= i1; ++i0, ++i)
+        {
+            for (int j = 0; j < c.length; ++j)
+            {
+                newArr[i][j] = matrix[i0][c[j]];
+            }
 
-        return null;
+        }
+        return new Matrix(newArr);
     }
 
     /**
      * Get a submatrix.
      * 
      * @param r - Array of row indices
-     * @param c - Array of column indicies
+     * @param c - Array of column indices
      * @return A(r(:),c(:))
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int[] r, int[] c)
             throws ArrayIndexOutOfBoundsException
     {
-        return null;
+        double[][] newArr = new double[r.length][c.length];
+        for (int i = 0; i < r.length; ++i)
+        {
+            for (int j = 0; j < c.length; ++j)
+            {
+                newArr[i][j] = matrix[r[i]][c[j]];
+            }
+
+        }
+        return new Matrix(newArr);
     }
 
     /**
@@ -587,7 +624,50 @@ public class Matrix
      */
     public Matrix times(Matrix b) throws IllegalArgumentException
     {
-        return null;
+        // check if jagged or incompatible matrices
+        if (matrixJagged(b) || this.matrix.length != b.matrix[0].length)
+        {
+            throw new IllegalArgumentException();
+        }
+
+        Matrix ret = new Matrix(this.matrix.length, b.matrix[0].length);
+        for (int i = 0; i < ret.matrix.length; ++i)
+        {
+            for (int j = 0; j < ret.matrix[i].length; ++j)
+            {
+                int numAdditions = this.matrix[0].length;
+                double sum = 0;
+                // start arthmetic for this location
+                for (int p = 0; p < numAdditions; ++p)
+                {
+                    sum += this.matrix[i][p] * b.matrix[p][j];
+                }
+                ret.matrix[i][j] = sum;
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Returns true if the matrix is jagged (some rows have more colums than
+     * others).
+     * 
+     * @param b the array to check
+     * @return returns true if matrix is jagged
+     */
+    public boolean matrixJagged(Matrix b)
+    {
+        int colNum = b.matrix[0].length;
+        // starts at 0 in the event of 1d matrices
+        for (int i = 0; i < b.matrix.length; ++i)
+        {
+            if (b.matrix[i].length != colNum)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -599,7 +679,16 @@ public class Matrix
      */
     public Matrix times(double s)
     {
-        return null;
+        Matrix ret = new Matrix(this.matrix);
+        for (int i = 0; i < ret.matrix.length; ++i)
+        {
+            for (int j = 0; j < ret.matrix[i].length; ++j)
+            {
+                ret.matrix[i][j] *= s;
+            }
+        }
+
+        return ret;
     }
 
     /**
@@ -611,6 +700,16 @@ public class Matrix
      */
     public Matrix timesEquals(double s)
     {
-        return null;
+        // could call other times then copy array - but that would be
+        // inefficient
+        for (int i = 0; i < matrix.length; ++i)
+        {
+            for (int j = 0; j < matrix[i].length; ++j)
+            {
+                matrix[i][j] *= s;
+            }
+        }
+
+        return this;
     }
 }
