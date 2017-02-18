@@ -854,7 +854,9 @@ public class MatrixBasicTests
                 // because the "invoker" - for lack of a better word - is the
                 // thread
                 // encountering the exception.
-                System.out.println("Happy Checkstyle?");
+
+                // below line is to make checkstyle happy.
+                first = null;
             }
             // check that two fields are not shallow copied
             assertTrue("caller and result have same internal matrix",
@@ -1453,22 +1455,13 @@ public class MatrixBasicTests
             functionPointer.invoke(caller, i0, i1, j0, j1, argument);
             Matrix result = caller;
 
-            // Instance check
-            assertTrue("the returned object is the same "
-                    + "instance as calling object", caller != result);
-
             // value checks
             double[][] resultField = (double[][]) internalMatrixField
                     .get(result);
 
-            assertTrue("inccorect number of rows: " + resultField.length,
-                    resultField.length == i1 - i0 + 1);
-
-            for (int i = 0; i < resultField.length; ++i)
+            for (int i = i0; i <= i1; ++i)
             {
-                assertTrue("row " + i + " has incorrect column number",
-                        resultField[i].length == j1 - j0 + 1);
-                for (int j = 0; j < resultField[0].length; ++j)
+                for (int j = j0; j < j1; ++j)
                 {
                     assertEquals("results invalid", value, resultField[i][j],
                             0.001);
@@ -1490,7 +1483,8 @@ public class MatrixBasicTests
         }
         catch (InvocationTargetException e)
         {
-            fail("Method found, but could not invoke the method");
+            fail("Method found, but could not invoke the method"
+                    + " or method caused exception");
         }
         catch (NoSuchFieldException e)
         {
@@ -1557,26 +1551,18 @@ public class MatrixBasicTests
             functionPointer.invoke(caller, rows, j0, j1, argument);
             Matrix result = caller;
 
-            // Instance check
-            assertTrue("the returned object is the same "
-                    + "instance as calling object", caller != result);
-
             // value checks
             double[][] resultField = (double[][]) internalMatrixField
                     .get(result);
             double[][] callerField = (double[][]) internalMatrixField
                     .get(caller);
 
-            assertTrue("inccorect number of rows: " + resultField.length,
-                    resultField.length == rows.length);
-
-            for (int i = 0; i < resultField.length; ++i)
+            for (int i :rows)
             {
-                assertTrue("row " + i + " has incorrect column number",
-                        resultField[i].length == j1 - j0 + 1);
-                for (int j = 0; j < resultField[0].length; ++j)
+                for (int j = j0; j < j1; ++j)
                 {
-                    assertTrue("results invalid", resultField[i][j] == value);
+                    assertEquals("results invalid", value, resultField[i][j],
+                            0.001);
                 }
             }
 
@@ -1660,24 +1646,17 @@ public class MatrixBasicTests
             functionPointer.invoke(caller, i0, i1, cols, argument);
             Matrix result = caller;
 
-            // Instance check
-            assertTrue("the returned object is the same "
-                    + "instance as calling object", caller != result);
-
             // value checks
             double[][] resultField = (double[][]) internalMatrixField
                     .get(result);
 
-            assertTrue("inccorect number of rows: " + resultField.length,
-                    resultField.length == i1 - i0 + 1);
 
-            for (int i = 0; i < resultField.length; ++i)
+            for (int i = i0; i <= i1; ++i)
             {
-                assertTrue("row " + i + " has incorrect column number",
-                        resultField[i].length == cols.length);
-                for (int j = 0; j < resultField[0].length; ++j)
+                for (int j : cols)
                 {
-                    assertTrue("results invalid", resultField[i][j] == value);
+                    assertEquals("results invalid", value, resultField[i][j],
+                            0.001);
                 }
             }
         }
@@ -1757,24 +1736,17 @@ public class MatrixBasicTests
             Matrix result = (Matrix) functionPointer.invoke(caller, rows, cols,
                     argument);
 
-            // Instance check
-            assertTrue("the returned object is the same "
-                    + "instance as calling object", caller != result);
 
             // value checks
             double[][] resultField = (double[][]) internalMatrixField
                     .get(result);
 
-            assertTrue("inccorect number of rows: " + resultField.length,
-                    resultField.length == rows.length);
-
-            for (int i = 0; i < resultField.length; ++i)
+            for (int i : rows)
             {
-                assertTrue("row " + i + " has incorrect column number",
-                        resultField[i].length == cols.length);
-                for (int j = 0; j < resultField[0].length; ++j)
+                for (int j : cols)
                 {
-                    assertTrue("results invalid", resultField[i][j] == value);
+                    assertEquals("results invalid", value, resultField[i][j],
+                            0.001);
                 }
             }
 
@@ -1906,6 +1878,79 @@ public class MatrixBasicTests
      * Tests the clone method.
      */
     @Test
+    public void testCopy()
+    {
+        // create two matrices to multiply
+        String methodName = "copy";
+        Matrix one = new Matrix(4, 4, 10);
+
+        // get method
+        try
+        {
+            // get a reflection to method (like a function pointer)
+            Method funcPtr = Matrix.class.getMethod(methodName);
+            // set the accessibility to public
+            funcPtr.setAccessible(true);
+
+            // invoke method and check results
+            Matrix result = (Matrix) funcPtr.invoke(one);
+
+            assertTrue("clone should not return caller", result != one);
+
+            // get the private matrix field to test
+            Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
+            internalMatrixField.setAccessible(true);
+
+            double[][] onePvArr = (double[][]) internalMatrixField.get(one);
+            double[][] resultPvArr = (double[][]) internalMatrixField
+                    .get(result);
+
+            Field rowsField = Matrix.class.getDeclaredField("rows");
+            rowsField.setAccessible(true);
+            Field colsField = Matrix.class.getDeclaredField("cols");
+            colsField.setAccessible(true);
+            assertTrue("clone should have same number of rows",
+                    onePvArr.length == resultPvArr.length);
+            assertTrue("clone should have same number of cols",
+                    onePvArr[0].length == resultPvArr[0].length);
+            assertEquals("cols field should match",
+                    (Integer) colsField.get(one),
+                    (Integer) colsField.get(result));
+            assertEquals("rows field should match",
+                    (Integer) rowsField.get(one),
+                    (Integer) rowsField.get(result));
+
+            for (int i = 0; i < onePvArr.length; ++i)
+            {
+                for (int j = 0; j < resultPvArr.length; ++j)
+                {
+                    assertEquals("element mismatch on clone in intenral array",
+                            onePvArr[i][j], resultPvArr[i][j], 0.001);
+                }
+            }
+
+        }
+        catch (NoSuchMethodException e)
+        {
+            e.printStackTrace();
+            fail("Cannot find method: " + methodName);
+        }
+        catch (InvocationTargetException e)
+        {
+            e.printStackTrace();
+            fail("failed to invoke the " + methodName + ".");
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            fail("Exception occured - stack trace printed");
+        }
+    }
+
+    /**
+     * Tests the clone method.
+     */
+    @Test
     public void testClone()
     {
         // create two matrices to multiply
@@ -1994,9 +2039,6 @@ public class MatrixBasicTests
             // set the accessibility to public
             funcPtr.setAccessible(true);
 
-            // invoke method and check results
-            Double result = (Double) funcPtr.invoke(one);
-
             // get the private matrix field to test
             Field internalMatrixField = Matrix.class.getDeclaredField("matrix");
             internalMatrixField.setAccessible(true);
@@ -2005,6 +2047,9 @@ public class MatrixBasicTests
             onePvArr[1][1] = 20.0;
             // assertTrue("internal matrix and returned should not be not same",
             // onePvArr != result);
+
+            // invoke method and check results
+            Double result = (Double) funcPtr.invoke(one);
 
             assertEquals(
                     "the method should have sumed the left to right diagonal",

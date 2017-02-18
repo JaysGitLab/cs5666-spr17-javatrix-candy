@@ -528,7 +528,7 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int i0, int i1, int j0, int j1)
-    //@formatter:off
+//@formatter:off
         throws ArrayIndexOutOfBoundsException
     //@formatter:on
     {
@@ -555,7 +555,7 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int[] r, int j0, int j1)
-    //@formatter:off
+//@formatter:off
         throws ArrayIndexOutOfBoundsException
     //@formatter:on
     {
@@ -581,7 +581,7 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int i0, int i1, int[] c)
-    //@formatter:off
+//@formatter:off
         throws ArrayIndexOutOfBoundsException
     //@formatter:on
     {
@@ -606,7 +606,7 @@ public class Matrix
      * @throws java.lang.ArrayIndexOutOfBoundsException - submatrix
      */
     public Matrix getMatrix(int[] r, int[] c)
-    //@formatter:off
+//@formatter:off
         throws ArrayIndexOutOfBoundsException
     //@formatter:on
     {
@@ -721,5 +721,135 @@ public class Matrix
         }
 
         return this;
+    }
+
+    /**
+     * Set a submatrix.
+     * 
+     * @param i0 - Initial row index
+     * @param i1 - Final row index
+     * @param j0 - Initial column index
+     * @param j1 - Final column index
+     * @param x - A(i0:i1,j0:j1)
+     */
+    public void setMatrix(int i0, int i1, int j0, int j1, Matrix x)
+    {
+        for (int i = 0; i0 <= i1; ++i0, ++i)
+        {
+            for (int j = 0, j0c = j0; j0c <= j1; ++j0c, ++j)
+            {
+                this.matrix[i0][j0c] = x.matrix[i][j];
+            }
+        }
+    }
+
+    /**
+     * Set a submatrix.
+     * 
+     * @param r - Array of row indices.
+     * @param j0 - Initial column index
+     * @param j1 - Final column index
+     * @param x - A(r(:),j0:j1)
+     */
+    public void setMatrix(int[] r, int j0, int j1, Matrix x)
+    {
+
+    }
+
+    /**
+     * Set a submatrix.
+     * 
+     * @param i0 - Initial row index
+     * @param i1 - Final row index
+     * @param c - Array of column indices.
+     * @param x - A(i0:i1,c(0:1))
+     */
+    public void setMatrix(int i0, int i1, int[] c, Matrix x)
+    {
+
+    }
+
+    /**
+     * Set a submatrix.
+     * 
+     * @param r - Array of row indices.
+     * @param c - Array of column indices.
+     * @param x - A(r(:),c(:))
+     */
+    public void setMatrix(int[] r, int[] c, Matrix x)
+    {
+
+    }
+
+    /**
+     * Make a deep copy of a matrix.
+     * 
+     * @return returns a deep copy of the matrix.
+     */
+    public Matrix copy()
+    {
+        Matrix copy = new Matrix(this.matrix);
+        return copy;
+    }
+
+    /**
+     * Clone the Matrix object.
+     * 
+     * @returns the clone of the matrix.
+     */
+    @Override
+    public Matrix clone()
+    {
+        return this.copy();
+    }
+
+    /**
+     * Copy the internal two-dimensional array.
+     * 
+     * @return returns an internal array copy
+     */
+    public double[][] getArrayCopy()
+    {
+        double[][] copy = new double[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; ++i)
+        {
+            for (int j = 0; j < matrix[i].length; ++j)
+            {
+                copy[i][j] = matrix[i][j];
+            }
+        }
+        return copy;
+    }
+
+    /**
+     * Returns the actual internal array of matrix.
+     * 
+     * @return the internal array.
+     */
+    public double[][] getArray()
+    {
+        return matrix;
+    }
+
+    /**
+     * Matrix trace.
+     * 
+     * @return sum of the diagonal elements.
+     */
+    public double trace()
+    {
+        if (matrix.length == matrix[0].length)
+        {
+            double ret = 0.0;
+            for (int i = 0; i < matrix.length; ++i)
+            {
+                ret += matrix[i][i];
+            }
+            return ret;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
+        }
     }
 }
