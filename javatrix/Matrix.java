@@ -748,5 +748,25 @@ public class Matrix
     		}
     	}
     	return matrix;
-   }
+    }
+    
+    /**
+     * method that creates a negative matrix for any n x m matrix
+     */
+    public Matrix uminus()
+    {
+    	int m = this.getRowDimensions();
+    	int n = this.getColumnDimensions();
+    	
+    	for(int i = 0; i < m; i++)
+    	{
+    		for (int j = 0; j < n; j++)
+    		{
+    			double a = this.get(i,j);
+    			a = -a;
+    			this.set(i,j,a);
+    		}
+    	}
+    	return this;
+    }    
 }
