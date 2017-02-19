@@ -737,7 +737,7 @@ public class Matrix
         {
             for (int j = 0; j < n; j++)
             {
-                if (m == n)
+                if (i == j)
                 {
                     matrix.set(i, j, 1.0);
                 }
