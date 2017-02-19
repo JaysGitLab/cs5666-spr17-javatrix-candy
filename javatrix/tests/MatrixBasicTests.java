@@ -3,6 +3,7 @@ package javatrix.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -2069,6 +2070,72 @@ public class MatrixBasicTests
             all.printStackTrace();
             fail("Exception occured - stack trace printed");
         }
+    }
+
+    /**
+     * Test norm1 function.
+     */
+
+    @Test
+    public void testNorm1()
+    {
+        double[][] a = {{1, 2, 3},
+                        {1, 2, 3},
+                        {1, 2, 3}};
+        Matrix mat = new Matrix(a);
+        //norm1 is greatest column sum
+        double norm1 = a[0][2] + a[1][2] + a[2][2];
+        double result = mat.norm1();
+        assertEquals("norm1 should return the greatest col sum",
+                    norm1, result, 0.02);        
+    }
+
+    /**
+     * Test normInf function.
+     */
+
+    @Test
+    public void testNormInf()
+    {
+        double[][] a = {{1, 1, 1},
+                        {2, 2, 2},
+                        {3, 3, 3}};
+        Matrix mat = new Matrix(a);
+        //norm1 is greatest column sum
+        double normInf = a[2][0] + a[2][1] + a[2][2];
+        double result = mat.normInf();
+        assertEquals("normInf should return the greatest row sum",
+                    normInf, result, 0.02);
+    }
+
+    /**
+     * Test getColumnPackedCopy function.
+     */
+    @Test
+    public void testGCPC()
+    {
+        double[][] a = {{1, 2, 3},
+                        {4, 5, 6},
+                        {7, 8, 9}};
+        Matrix mat = new Matrix(a);
+        double[] aCP = {1, 4, 7, 2, 5, 8, 3, 6, 9};
+        double[] matCP = mat.getColumnPackedCopy();
+        assertArrayEquals("Column Packed Array incorrect", aCP, matCP, 0.002);
+    }
+    
+    /**
+     * Test getRowPackedCopy function.
+     */
+    @Test
+    public void testGRPC()
+    {
+        double[][] a = {{1, 2, 3},
+                        {4, 5, 6},
+                        {7, 8, 9}};
+        Matrix mat = new Matrix(a);
+        double[] aCP = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        double[] matCP = mat.getRowPackedCopy();
+        assertArrayEquals("Row Packed Array incorrect", aCP, matCP, 0.002);
     }
 
 }

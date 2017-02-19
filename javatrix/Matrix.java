@@ -871,4 +871,96 @@ public class Matrix
             throw new IllegalArgumentException();
         }
     }
+
+    /**
+     * Norm1 returns the largest column sum in the Matrix.
+     *
+     * @return largest column sum
+     */
+    public double norm1()
+    {
+        double max = 0.0; 
+        double sum;
+        for (int j = 0; j < cols; ++j)
+        {
+            sum = 0.0;
+            for (int i = 0; i < rows; ++i)
+            {
+                sum += matrix[i][j];
+            }
+            if (sum > max)
+            {
+                max = sum;
+            }
+        }
+        return max;             
+    }
+
+    /**
+     * NormInf returns the largest row sum in the Matrix.
+     *
+     * @return largest row sum
+     */
+    public double normInf()
+    {
+        double max = 0.0;
+        double sum;
+        for (int i = 0; i < rows; ++i)
+        {
+            sum = 0.0;
+            for (int j = 0; j < cols; ++j)
+            {
+                sum += matrix[i][j];
+            }
+            if (sum > max)
+            {
+                max = sum;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * GetColumnPackedCopy returns a one-dimensional 
+     * column packed copy of the internal array.
+     *
+     * @return Matrix elements packed in a 
+     *         one-dimensional array by columns.
+     */
+    public double[] getColumnPackedCopy()
+    {
+        double[] copy = new double[rows * cols];
+        int index = 0;
+        for (int j = 0; j < cols; ++j)
+        {
+            for (int i = 0; i < rows; i++)
+            {
+                copy[index] = matrix[i][j];
+                index++;
+            }
+        }
+        return copy;
+    }
+
+    /**
+     * GetRowPackedCopy returns a one-dimensional
+     * row packed copy of the internal array.
+     *
+     * @return Matrix elements packed in a
+     *         one-dimensional array by rows.
+     */
+    public double[] getRowPackedCopy()
+    {
+        double[] copy = new double[rows * cols];
+        int index = 0;
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                copy[index] = matrix[i][j];
+                index++;
+            }
+        }
+        return copy;
+    }
 }
