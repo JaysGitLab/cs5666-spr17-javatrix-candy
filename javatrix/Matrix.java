@@ -919,4 +919,48 @@ public class Matrix
         }
         return max;
     }
+
+    /**
+     * GetColumnPackedCopy returns a one-dimensional 
+     * column packed copy of the internal array.
+     *
+     * @return Matrix elements packed in a 
+     *         one-dimensional array by columns.
+     */
+    public double[] getColumnPackedCopy()
+    {
+        double[] copy = new double[rows * cols];
+        int index = 0;
+        for (int j = 0; j < cols; ++j)
+        {
+            for (int i = 0; i < rows; i++)
+            {
+                copy[index] = matrix[i][j];
+                index++;
+            }
+        }
+        return copy;
+    }
+
+    /**
+     * GetRowPackedCopy returns a one-dimensional
+     * row packed copy of the internal array.
+     *
+     * @return Matrix elements packed in a
+     *         one-dimensional array by rows.
+     */
+    public double[] getRowPackedCopy()
+    {
+        double[] copy = new double[rows * cols];
+        int index = 0;
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                copy[index] = matrix[i][j];
+                index++;
+            }
+        }
+        return copy;
+    }
 }

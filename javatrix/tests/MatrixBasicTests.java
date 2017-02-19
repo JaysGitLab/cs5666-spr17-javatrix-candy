@@ -3,6 +3,7 @@ package javatrix.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -2106,4 +2107,35 @@ public class MatrixBasicTests
         assertEquals("normInf should return the greatest row sum",
                     normInf, result, 0.02);
     }
+
+    /**
+     * Test getColumnPackedCopy function.
+     */
+    @Test
+    public void testGCPC()
+    {
+        double[][] a = {{1, 2, 3},
+                        {4, 5, 6},
+                        {7, 8, 9}};
+        Matrix mat = new Matrix(a);
+        double[] aCP = {1, 4, 7, 2, 5, 8, 3, 6, 9};
+        double[] matCP = mat.getColumnPackedCopy();
+        assertArrayEquals("Column Packed Array incorrect", aCP, matCP, 0.002);
+    }
+    
+    /**
+     * Test getRowPackedCopy function.
+     */
+    @Test
+    public void testGRPC()
+    {
+        double[][] a = {{1, 2, 3},
+                        {4, 5, 6},
+                        {7, 8, 9}};
+        Matrix mat = new Matrix(a);
+        double[] aCP = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        double[] matCP = mat.getRowPackedCopy();
+        assertArrayEquals("Row Packed Array incorrect", aCP, matCP, 0.002);
+    }
+
 }
