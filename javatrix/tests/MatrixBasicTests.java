@@ -1424,7 +1424,7 @@ public class MatrixBasicTests
                 for (int j = 0; j < n; j++)
                 {
                     // This needs to change, it is never true. i==j?
-                    if (m == n)
+                    if (i == j)
                     {
                         assertEquals(1.0, matrix.get(i, j), 0.0001);
                     }
