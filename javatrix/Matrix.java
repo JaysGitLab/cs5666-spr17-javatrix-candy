@@ -881,14 +881,14 @@ public class Matrix
     {
         double max = 0.0; 
         double sum;
-        for(int j = 0; j < cols; ++j)
+        for (int j = 0; j < cols; ++j)
         {
             sum = 0.0;
-            for(int i = 0; i < rows; ++i)
+            for (int i = 0; i < rows; ++i)
             {
                 sum += matrix[i][j];
             }
-            if(sum > max)
+            if (sum > max)
             {
                 max = sum;
             }
@@ -905,14 +905,14 @@ public class Matrix
     {
         double max = 0.0;
         double sum;
-        for(int i = 0; i < rows; ++i)
+        for (int i = 0; i < rows; ++i)
         {
             sum = 0.0;
-            for(int j = 0; j < cols; ++j)
+            for (int j = 0; j < cols; ++j)
             {
                 sum += matrix[i][j];
             }
-            if(sum > max)
+            if (sum > max)
             {
                 max = sum;
             }

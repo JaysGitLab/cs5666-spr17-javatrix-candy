@@ -2072,7 +2072,7 @@ public class MatrixBasicTests
     }
 
     /**
-     * Test norm1 function
+     * Test norm1 function.
      */
 
     @Test
@@ -2090,7 +2090,7 @@ public class MatrixBasicTests
     }
 
     /**
-     * Test normInf function
+     * Test normInf function.
      */
 
     @Test
