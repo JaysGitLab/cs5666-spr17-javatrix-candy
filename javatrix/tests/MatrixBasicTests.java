@@ -2071,4 +2071,39 @@ public class MatrixBasicTests
         }
     }
 
+    /**
+     * Test norm1 function
+     */
+
+    @Test
+    public void testNorm1()
+    {
+        double[][] a = {{1, 2, 3},
+                        {1, 2, 3},
+                        {1, 2, 3}};
+        Matrix mat = new Matrix(a);
+        //norm1 is greatest column sum
+        double norm1 = a[0][2] + a[1][2] + a[2][2];
+        double result = mat.norm1();
+        assertEquals("norm1 should return the greatest col sum",
+                    norm1, result, 0.02);        
+    }
+
+    /**
+     * Test normInf function
+     */
+
+    @Test
+    public void testNormInf()
+    {
+        double[][] a = {{1, 1, 1},
+                        {2, 2, 2},
+                        {3, 3, 3}};
+        Matrix mat = new Matrix(a);
+        //norm1 is greatest column sum
+        double normInf = a[2][0] + a[2][1] + a[2][2];
+        double result = mat.normInf();
+        assertEquals("normInf should return the greatest row sum",
+                    normInf, result, 0.02);
+    }
 }
