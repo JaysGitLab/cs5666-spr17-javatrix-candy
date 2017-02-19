@@ -751,6 +751,133 @@ public class Matrix
     }
 
     /**
+     * Set a submatrix.
+     * 
+     * @param i0 - Initial row index
+     * @param i1 - Final row index
+     * @param j0 - Initial column index
+     * @param j1 - Final column index
+     * @param x - A(i0:i1,j0:j1)
+     */
+    public void setMatrix(int i0, int i1, int j0, int j1, Matrix x)
+    {
+        for (int i = 0; i0 <= i1; ++i0, ++i)
+        {
+            for (int j = 0, j0c = j0; j0c <= j1; ++j0c, ++j)
+            {
+                this.matrix[i0][j0c] = x.matrix[i][j];
+            }
+        }
+    }
+
+    /**
+     * Set a submatrix.
+     * 
+     * @param r - Array of row indices.
+     * @param j0 - Initial column index
+     * @param j1 - Final column index
+     * @param x - A(r(:),j0:j1)
+     */
+    public void setMatrix(int[] r, int j0, int j1, Matrix x)
+    {
+        for (int i = 0; i < r.length; ++i)
+        {
+            for (int j = 0, j0c = j0; j0c <= j1; ++j0c, ++j)
+            {
+                this.matrix[r[i]][j0c] = x.matrix[i][j];
+            }
+
+        }
+    }
+
+    /**
+     * Set a submatrix.
+     * 
+     * @param i0 - Initial row index
+     * @param i1 - Final row index
+     * @param c - Array of column indices.
+     * @param x - A(i0:i1,c(0:1))
+     */
+    public void setMatrix(int i0, int i1, int[] c, Matrix x)
+    {
+        for (int i = 0; i0 <= i1; ++i0, ++i)
+        {
+            for (int j = 0; j < c.length; ++j)
+            {
+                this.matrix[i0][c[j]] = x.matrix[i][j];
+            }
+        }
+    }
+
+    /**
+     * Set a submatrix.
+     * 
+     * @param r - Array of row indices.
+     * @param c - Array of column indices.
+     * @param x - A(r(:),c(:))
+     */
+    public void setMatrix(int[] r, int[] c, Matrix x)
+    {
+        for (int i = 0; i < r.length; ++i)
+        {
+            for (int j = 0; j < c.length; ++j)
+            {
+                this.matrix[r[i]][c[j]] = x.matrix[i][j];
+            }
+        }
+    }
+
+    /**
+     * Make a deep copy of a matrix.
+     * 
+     * @return returns a deep copy of the matrix.
+     */
+    public Matrix copy()
+    {
+        Matrix copy = new Matrix(this.matrix);
+        return copy;
+    }
+
+    /**
+     * Clone the Matrix object.
+     * 
+     * @return the clone of the matrix.
+     */
+    @Override
+    public Matrix clone()
+    {
+        return this.copy();
+    }
+
+    /**
+     * Copy the internal two-dimensional array.
+     * 
+     * @return returns an internal array copy
+     */
+    public double[][] getArrayCopy()
+    {
+        double[][] copy = new double[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; ++i)
+        {
+            for (int j = 0; j < matrix[i].length; ++j)
+            {
+                copy[i][j] = matrix[i][j];
+            }
+        }
+        return copy;
+    }
+
+    /**
+     * Returns the actual internal array of matrix.
+     * 
+     * @return the internal array.
+     */
+    public double[][] getArray()
+    {
+        return matrix;
+    }
+
+    /**
      * method that creates a negative matrix for any n x m matrix.
      * 
      * @return the matrix negated
@@ -770,5 +897,117 @@ public class Matrix
             }
         }
         return this;
+    }
+
+    /**
+     * Matrix trace.
+     * 
+     * @return sum of the diagonal elements.
+     */
+    public double trace()
+    {
+        if (matrix.length == matrix[0].length)
+        {
+            double ret = 0.0;
+            for (int i = 0; i < matrix.length; ++i)
+            {
+                ret += matrix[i][i];
+            }
+            return ret;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * Norm1 returns the largest column sum in the Matrix.
+     * 
+     * @return largest column sum
+     */
+    public double norm1()
+    {
+        double max = 0.0;
+        double sum;
+        for (int j = 0; j < cols; ++j)
+        {
+            sum = 0.0;
+            for (int i = 0; i < rows; ++i)
+            {
+                sum += matrix[i][j];
+            }
+            if (sum > max)
+            {
+                max = sum;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * NormInf returns the largest row sum in the Matrix.
+     * 
+     * @return largest row sum
+     */
+    public double normInf()
+    {
+        double max = 0.0;
+        double sum;
+        for (int i = 0; i < rows; ++i)
+        {
+            sum = 0.0;
+            for (int j = 0; j < cols; ++j)
+            {
+                sum += matrix[i][j];
+            }
+            if (sum > max)
+            {
+                max = sum;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * GetColumnPackedCopy returns a one-dimensional column packed copy of the
+     * internal array.
+     * 
+     * @return Matrix elements packed in a one-dimensional array by columns.
+     */
+    public double[] getColumnPackedCopy()
+    {
+        double[] copy = new double[rows * cols];
+        int index = 0;
+        for (int j = 0; j < cols; ++j)
+        {
+            for (int i = 0; i < rows; i++)
+            {
+                copy[index] = matrix[i][j];
+                index++;
+            }
+        }
+        return copy;
+    }
+
+    /**
+     * GetRowPackedCopy returns a one-dimensional row packed copy of the
+     * internal array.
+     * 
+     * @return Matrix elements packed in a one-dimensional array by rows.
+     */
+    public double[] getRowPackedCopy()
+    {
+        double[] copy = new double[rows * cols];
+        int index = 0;
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                copy[index] = matrix[i][j];
+                index++;
+            }
+        }
+        return copy;
     }
 }
