@@ -724,6 +724,33 @@ public class Matrix
     }
 
     /**
+     * method that creates a identity matrix for any n x m matrix.
+     * 
+     * @param m - the m dimension or rows of the matrix
+     * @param n - the n dimension or columns of the matrix
+     * @return the identity matrix!
+     */
+    public static Matrix identity(int m, int n)
+    {
+        Matrix matrix = new Matrix(m, n);
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (i == j)
+                {
+                    matrix.set(i, j, 1.0);
+                }
+                else
+                {
+                    matrix.set(i, j, 0);
+                }
+            }
+        }
+        return matrix;
+    }
+
+    /**
      * Set a submatrix.
      * 
      * @param i0 - Initial row index
@@ -851,6 +878,28 @@ public class Matrix
     }
 
     /**
+     * method that creates a negative matrix for any n x m matrix.
+     * 
+     * @return the matrix negated
+     */
+    public Matrix uminus()
+    {
+        int m = this.getRowDimension();
+        int n = this.getColumnDimension();
+
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                double a = this.get(i, j);
+                a = -a;
+                this.set(i, j, a);
+            }
+        }
+        return this;
+    }
+
+    /**
      * Matrix trace.
      * 
      * @return sum of the diagonal elements.
@@ -874,12 +923,12 @@ public class Matrix
 
     /**
      * Norm1 returns the largest column sum in the Matrix.
-     *
+     * 
      * @return largest column sum
      */
     public double norm1()
     {
-        double max = 0.0; 
+        double max = 0.0;
         double sum;
         for (int j = 0; j < cols; ++j)
         {
@@ -893,12 +942,12 @@ public class Matrix
                 max = sum;
             }
         }
-        return max;             
+        return max;
     }
 
     /**
      * NormInf returns the largest row sum in the Matrix.
-     *
+     * 
      * @return largest row sum
      */
     public double normInf()
@@ -921,11 +970,10 @@ public class Matrix
     }
 
     /**
-     * GetColumnPackedCopy returns a one-dimensional 
-     * column packed copy of the internal array.
-     *
-     * @return Matrix elements packed in a 
-     *         one-dimensional array by columns.
+     * GetColumnPackedCopy returns a one-dimensional column packed copy of the
+     * internal array.
+     * 
+     * @return Matrix elements packed in a one-dimensional array by columns.
      */
     public double[] getColumnPackedCopy()
     {
@@ -943,11 +991,10 @@ public class Matrix
     }
 
     /**
-     * GetRowPackedCopy returns a one-dimensional
-     * row packed copy of the internal array.
-     *
-     * @return Matrix elements packed in a
-     *         one-dimensional array by rows.
+     * GetRowPackedCopy returns a one-dimensional row packed copy of the
+     * internal array.
+     * 
+     * @return Matrix elements packed in a one-dimensional array by rows.
      */
     public double[] getRowPackedCopy()
     {

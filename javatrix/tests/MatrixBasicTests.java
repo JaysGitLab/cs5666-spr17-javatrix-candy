@@ -1409,6 +1409,39 @@ public class MatrixBasicTests
     }
 
     /**
+     * test for the identity matrix formulation.
+     * */
+
+    @Test
+    public void testIdentity()
+    {
+        // create two matrices to multiply
+        int m = 5;
+        int n = 4;
+
+        try
+        {
+            Matrix matrix = Matrix.identity(5, 4);
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    // This needs to change, it is never true. i==j?
+                    if (i == j)
+                    {
+                        assertEquals(1.0, matrix.get(i, j), 0.0001);
+                    }
+                }
+            }
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            fail("Exception occured - stack trace printed");
+        }
+    }
+
+    /**
      * Test the setMatrix that uses 4 int parameters.
      */
     @Test
@@ -1826,6 +1859,39 @@ public class MatrixBasicTests
     }
 
     /**
+     * test for the unary minus.
+     * 
+     */
+
+    @Test
+    public void testUminus()
+    {
+        // create two matrices to multiply
+        int m = 5;
+        int n = 4;
+
+        try
+        {
+            Matrix matrix = new Matrix(m, n, 2.0);
+
+            matrix = matrix.uminus();
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    assertEquals(-2.0, matrix.get(i, j), 0.0001);
+                }
+            }
+        }
+        catch (Exception all)
+        {
+            all.printStackTrace();
+            fail("Exception occured - stack trace printed");
+        }
+    }
+
+    /**
      * Tests the arrayCopy method.
      */
     @Test
@@ -2079,15 +2145,17 @@ public class MatrixBasicTests
     @Test
     public void testNorm1()
     {
+        //@formatter:off
         double[][] a = {{1, 2, 3},
                         {1, 2, 3},
                         {1, 2, 3}};
+        //@formatter:on
         Matrix mat = new Matrix(a);
-        //norm1 is greatest column sum
+        // norm1 is greatest column sum
         double norm1 = a[0][2] + a[1][2] + a[2][2];
         double result = mat.norm1();
-        assertEquals("norm1 should return the greatest col sum",
-                    norm1, result, 0.02);        
+        assertEquals("norm1 should return the greatest col sum", norm1, result,
+                0.02);
     }
 
     /**
@@ -2097,15 +2165,18 @@ public class MatrixBasicTests
     @Test
     public void testNormInf()
     {
+        //@formatter:off
         double[][] a = {{1, 1, 1},
                         {2, 2, 2},
                         {3, 3, 3}};
+        //@formatter:on
+
         Matrix mat = new Matrix(a);
-        //norm1 is greatest column sum
+        // norm1 is greatest column sum
         double normInf = a[2][0] + a[2][1] + a[2][2];
         double result = mat.normInf();
-        assertEquals("normInf should return the greatest row sum",
-                    normInf, result, 0.02);
+        assertEquals("normInf should return the greatest row sum", normInf,
+                result, 0.02);
     }
 
     /**
@@ -2114,27 +2185,32 @@ public class MatrixBasicTests
     @Test
     public void testGCPC()
     {
+        //@formatter:off
         double[][] a = {{1, 2, 3},
                         {4, 5, 6},
                         {7, 8, 9}};
         Matrix mat = new Matrix(a);
         double[] aCP = {1, 4, 7, 2, 5, 8, 3, 6, 9};
+        //@formatter:on
+
         double[] matCP = mat.getColumnPackedCopy();
         assertArrayEquals("Column Packed Array incorrect", aCP, matCP, 0.002);
     }
-    
+
     /**
      * Test getRowPackedCopy function.
      */
     @Test
     public void testGRPC()
     {
+        //@formatter:off
         double[][] a = {{1, 2, 3},
                         {4, 5, 6},
                         {7, 8, 9}};
         Matrix mat = new Matrix(a);
         double[] aCP = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         double[] matCP = mat.getRowPackedCopy();
+        //@formatter:on
         assertArrayEquals("Row Packed Array incorrect", aCP, matCP, 0.002);
     }
 
