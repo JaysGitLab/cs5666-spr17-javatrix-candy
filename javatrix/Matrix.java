@@ -1013,7 +1013,7 @@ public class Matrix
 
     /**
      * ArrayRightDivide returns a matrix containing the 
-     * result of an element-by-element right division in place.
+     * result of an element-by-element right division.
      *
      * @throws IllegalArgumentException Matrices must be the same 
      *                                  dimensions and at least 1
@@ -1042,4 +1042,35 @@ public class Matrix
         Matrix cMatrix = new Matrix(c);
         return cMatrix;
     }
+    
+    /**
+     * ArrayRightDivideEquals returns a matrix containing the
+     * result of an element-by-element right division in place.
+     *
+     * @throws IllegalArgumentException Matrices must be the same
+     *                                  dimensions and at least 1
+     *                                  row and col.
+     *
+     * @param b - A Matrix to divide with.
+     *
+     * @return The result of an element-by-element right division in place.
+     */
+    public Matrix arrayRightDivideEquals(Matrix b) 
+        throws IllegalArgumentException
+    {
+        if (rows != b.rows || cols != b.cols || rows == 0 || cols == 0)
+        {
+            throw new IllegalArgumentException();
+        }
+
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; ++j)
+            {
+                matrix[i][j] = matrix[i][j] / b.matrix[i][j];
+            }
+        }
+        return this;
+    }
+
 }

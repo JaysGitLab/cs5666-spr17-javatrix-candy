@@ -2230,5 +2230,20 @@ public class MatrixBasicTests
         assertArrayEquals(correct, result, 0.002);
     }
 
-
+   /**
+     * Test arrayRightDivideEquals function.
+     */
+    @Test
+    public void testARDE()
+    {
+        double[][] x = {{1, 2}, {2, 2}};
+        double[][] y = {{3, 2}, {1, 1}};
+        Matrix a = new Matrix(x);
+        Matrix b = new Matrix(y);
+        double[] correct = {x[0][0] / y[0][0], x[0][1] / y[0][1],
+                            x[1][0] / y[1][0], x[1][1] / y[1][1]};
+        a.arrayRightDivideEquals(b);
+        double[] result = a.getRowPackedCopy();
+        assertArrayEquals(correct, result, 0.002);
+    } 
 }
