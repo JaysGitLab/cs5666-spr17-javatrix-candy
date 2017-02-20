@@ -2213,5 +2213,22 @@ public class MatrixBasicTests
         //@formatter:on
         assertArrayEquals("Row Packed Array incorrect", aCP, matCP, 0.002);
     }
+    
+    /**
+     * Test arrayRightDivide function.
+     */
+    @Test 
+    public void testARD()
+    {
+        double[][] x = {{1, 2}, {2, 2}};
+        double[][] y = {{3, 2}, {1, 1}};
+        Matrix a = new Matrix(x);
+        Matrix b = new Matrix(y);
+        double[] correct = {x[0][0] / y[0][0], x[0][1] / y[0][1], 
+                            x[1][0] / y[1][0], x[1][1] / y[1][1]};
+        double[] result = a.arrayRightDivide(b).getRowPackedCopy();
+        assertArrayEquals(correct, result, 0.002);
+    }
+
 
 }
